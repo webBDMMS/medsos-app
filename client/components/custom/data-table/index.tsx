@@ -27,8 +27,18 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
+import useDialogStore from "@/hooks/use-dialog";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import { Separator } from "@/components/ui/separator";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id?: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
@@ -36,7 +46,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData & { id?: string }, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -44,9 +54,14 @@ export function DataTable<TData, TValue>({
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const pathname = usePathname();
+  console.log("current path", pathname);
+  const router = useRouter();
+  const { openDialog } = useDialogStore();
 
   const handleRowDoubleClick = (rowId: string) => {
     console.log(rowId);
+    openDialog(rowId, "sekretariat");
   };
 
   const table = useReactTable({
@@ -58,6 +73,12 @@ export function DataTable<TData, TValue>({
       rowSelection,
       columnFilters,
     },
+    initialState: {
+      pagination: {
+        pageSize: 20,
+      },
+    },
+    globalFilterFn: "includesString", // Set global filter function
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -97,21 +118,61 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  className="transition hover:cursor-pointer hover:bg-muted"
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  onDoubleClick={() => handleRowDoubleClick(row.id)} // Add double-click handler
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <React.Fragment key={row.id}>
+                  {pathname === "/aset-digital/nomor-telepon" ? ( // Aktifkan ContextMenu hanya jika pathname cocok
+                    <ContextMenu>
+                      <ContextMenuTrigger asChild>
+                        <TableRow
+                          className="transition hover:cursor-pointer hover:bg-muted"
+                          data-state={row.getIsSelected() && "selected"}
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <TableCell key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </ContextMenuTrigger>
+                      <ContextMenuContent>
+                        <ContextMenuLabel>Actions</ContextMenuLabel>
+                        <Separator />
+                        <ContextMenuItem
+                          onClick={() =>
+                            router.push(`/aset-digital/nomor-telepon/${row.original.id}`)
+                          }
+                        >
+                          View
+                        </ContextMenuItem>
+                        <ContextMenuItem>Edit</ContextMenuItem>
+                        <ContextMenuItem>Hapus</ContextMenuItem>
+                      </ContextMenuContent>
+                    </ContextMenu>
+                  ) : (
+                    <TableRow
+                      className="transition hover:cursor-pointer hover:bg-muted"
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                      {...(pathname === "/gedung"
+                        ? {
+                            onDoubleClick: () =>
+                              handleRowDoubleClick(row.original.id!),
+                          }
+                        : {})}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  )}
+                </React.Fragment>
               ))
             ) : (
               <TableRow>

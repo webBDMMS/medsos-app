@@ -20,16 +20,16 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+  const globalFilterValue = table.getState().globalFilter ?? ""; // Get global filter state
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
+        {/* Update Input to handle global filtering */}
         <Input
-          placeholder="Filter tasks..."
-          value={(table.getColumn("Sekretariat")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("Sekretariat")?.setFilterValue(event.target.value)
-          }
+          placeholder="Search all data..."
+          value={globalFilterValue}
+          onChange={(event) => table.setGlobalFilter(event.target.value)} // Set global filter
           className="h-8 w-[150px] lg:w-[250px]"
         />
         {table.getColumn("coverage_level") && (

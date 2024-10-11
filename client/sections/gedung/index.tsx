@@ -2,12 +2,14 @@ import { DataTable } from '@/components/custom/data-table';
 import Container from '@/components/custom/layouts/container'
 import React from 'react'
 import { columns } from './table/columns';
-import { data } from '@/constants/secretariat/secretariat.json';
+import sekretariat from '@/constants/secretariat/secretariat.json';
+import { CustomModal } from '@/components/custom/modal';
 
 const Sekretariat = () => {
   return (
     <Container>
-      <DataTable columns={columns} data={data} />
+      <CustomModal />
+      <DataTable columns={columns} data={sekretariat.data} />
     </Container>
   );
 }
