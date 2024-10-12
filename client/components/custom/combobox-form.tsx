@@ -30,6 +30,7 @@ interface ComboboxFormProps<T> {
   items: { label: string; value: T }[];
   fieldName: string;
   label?: string;
+  disabled?: boolean;
   placeholder?: string;
   onSelect?: (value: T) => void; // Callback for selection
 }
@@ -40,6 +41,7 @@ export function ComboboxForm<T>({
   fieldName,
   placeholder = "Select...",
   label,
+  disabled,
   onSelect,
 }: ComboboxFormProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +59,7 @@ export function ComboboxForm<T>({
               <PopoverTrigger asChild>
                 <FormControl data-id={`combo-box-${fieldName}`}>
                   <Button
+                    disabled={disabled}
                     variant="outline"
                     role="combobox"
                     className={cn(

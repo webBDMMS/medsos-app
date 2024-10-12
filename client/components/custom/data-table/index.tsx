@@ -82,6 +82,9 @@ export function DataTable<TData, TValue>({
 
   const handleEdit = (rowId: string) => {
     console.log(rowId);
+    if (isNoHandphone) {
+      openDialog(rowId, "edit phone");
+    }
   };
 
   const handleDelete = (rowId: string) => {

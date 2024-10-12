@@ -14,8 +14,8 @@ export const CreateNomorSchema = z.object({
   sekretariat: z.string().min(1),
   phone_number: z.string().min(1),
   provider: z.string().min(1),
-  active_date: z.string().min(1),
-  non_active_date: z.string().optional(),
+  active_date: z.date(),
+  non_active_date: z.date().optional(),
   pj: z.string().min(1),
 });
 
@@ -57,3 +57,16 @@ export const PjList = Array.from({ length: 5 }).map((_, i) => ({
   value: `pj_${i + 1}`,
   label: `PJ - ${i + 1}`,
 }));
+
+
+export const ViewNomorSchema = z.object({
+  id: z.string(),
+  phone_number: z.string(),
+  provider: z.string(),
+  pj: z.string(),
+  position: z.string(),
+  active_date: z.date(),
+  non_active_date: z.date().optional(),
+});
+
+export type ViewNomor = z.infer<typeof ViewNomorSchema>;
