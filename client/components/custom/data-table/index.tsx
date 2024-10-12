@@ -34,9 +34,11 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { Separator } from "@/components/ui/separator";
+import { Delete, Pencil, ScanSearch } from "lucide-react";
 
 interface DataTableProps<TData extends { id?: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -59,9 +61,31 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
   const { openDialog } = useDialogStore();
 
+  const pathConditions = {
+    isSekretariat: pathname === "/gedung",
+    isNoHandphone: pathname === "/aset-digital/nomor-telepon",
+    // Add more conditions as needed
+  };
+
+  // You can now access the conditions like this:
+  const { isSekretariat, isNoHandphone } = pathConditions;
+
   const handleRowDoubleClick = (rowId: string) => {
     console.log(rowId);
     openDialog(rowId, "sekretariat");
+  };
+
+  const handleViews = (rowId: string) => {
+    console.log(rowId);
+    router.push(`/aset-digital/nomor-telepon/${rowId}`);
+  };
+
+  const handleEdit = (rowId: string) => {
+    console.log(rowId);
+  };
+
+  const handleDelete = (rowId: string) => {
+    console.log(rowId);
   };
 
   const table = useReactTable({
@@ -119,7 +143,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <React.Fragment key={row.id}>
-                  {pathname === "/aset-digital/nomor-telepon" ? ( // Aktifkan ContextMenu hanya jika pathname cocok
+                  {isNoHandphone ? ( // Aktifkan ContextMenu hanya jika pathname cocok
                     <ContextMenu>
                       <ContextMenuTrigger asChild>
                         <TableRow
@@ -140,14 +164,29 @@ export function DataTable<TData, TValue>({
                         <ContextMenuLabel>Actions</ContextMenuLabel>
                         <Separator />
                         <ContextMenuItem
-                          onClick={() =>
-                            router.push(`/aset-digital/nomor-telepon/${row.original.id}`)
-                          }
+                          onClick={() => handleViews(row.original.id!)}
                         >
                           View
+                          <ContextMenuShortcut>
+                            <ScanSearch size={20} />
+                          </ContextMenuShortcut>
                         </ContextMenuItem>
-                        <ContextMenuItem>Edit</ContextMenuItem>
-                        <ContextMenuItem>Hapus</ContextMenuItem>
+                        <ContextMenuItem
+                          onClick={() => handleEdit(row.original.id!)}
+                        >
+                          Edit
+                          <ContextMenuShortcut>
+                            <Pencil size={17} />
+                          </ContextMenuShortcut>
+                        </ContextMenuItem>
+                        <ContextMenuItem
+                          onClick={() => handleDelete(row.original.id!)}
+                        >
+                          Hapus
+                          <ContextMenuShortcut>
+                            <Delete size={17} />
+                          </ContextMenuShortcut>
+                        </ContextMenuItem>
                       </ContextMenuContent>
                     </ContextMenu>
                   ) : (
@@ -155,7 +194,7 @@ export function DataTable<TData, TValue>({
                       className="transition hover:cursor-pointer hover:bg-muted"
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      {...(pathname === "/gedung"
+                      {...(isSekretariat
                         ? {
                             onDoubleClick: () =>
                               handleRowDoubleClick(row.original.id!),

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import useDialogStore from "@/hooks/use-dialog";
 import ViewSekretariat from "@/sections/gedung/view-data";
+import ViewPhone from "@/sections/aset-digital/nomor-telepon/view-data";
 
 export const CustomModal = () => {
   const { isOpen, closeDialog, dialogType } = useDialogStore();
@@ -24,6 +25,7 @@ export const CustomModal = () => {
         </DialogHeader>
         <div className="w-full h-full min-w-[600px]  max-w-3xl">
           {dialogType === "sekretariat" && <ViewSekretariat />}
+          {dialogType === "phone" && <ViewPhone />}
         </div>
       </DialogContent>
     </Dialog>
