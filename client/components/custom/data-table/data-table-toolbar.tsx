@@ -9,10 +9,13 @@ import { DataTableViewOptions } from "./data-table-view-options";
 
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { secretariatData } from "@/constants/secretariat/data";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { Plus } from "lucide-react";
 import useDialogStore from "@/hooks/use-dialog";
+import { Label } from "@/components/ui/label";
+import { Combobox } from "@/components/ui/combobox";
+import { items } from "@/constants/media-sosial/data";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -26,34 +29,76 @@ export function DataTableToolbar<TData>({
   const { openDialog } = useDialogStore();
   //? ===== management path conditions =====
   const pathname = usePathname();
-  console.log("current path", pathname);
+  const params = useParams<{ id: string }>();
+  const id = params.id;
+  // console.log("params id", id);
+  // console.log("current path", pathname);
 
   const pathConditions = {
     isSekretariat: pathname === "/gedung",
     isNoHandphone: pathname === "/aset-digital/nomor-telepon",
+    isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/${id}`,
+    isMedsos: pathname === "/aset-digital/media-sosial",
+    isGMaps: pathname === "/aset-digital/google-maps",
     // Add more conditions as needed
   };
 
   // You can now access the conditions like this:
-  const { isSekretariat, isNoHandphone } = pathConditions;
+  const { isSekretariat, isNoHandphone, isViewNoHandphone, isMedsos, isGMaps } =
+    pathConditions;
   //? ===== management path conditions =====
 
   const handleCreate = () => {
     if (isNoHandphone) {
       openDialog(null, "phone");
     }
+    if (isMedsos) {
+      openDialog(null, "medsos");
+    }
+    if (isGMaps) {
+      openDialog(null, "gmaps");
+    }
   };
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
+        {/* view no handphone */}
+        {isViewNoHandphone && (
+          <div className="flex justify-center gap-5">
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="email">Kota Go</Label>
+              <Input
+                className="h-8 w-[150px] lg:w-[250px]"
+                type="email"
+                id="email"
+                placeholder="Email"
+              />
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="email">Sekretariat</Label>
+              <Input
+                className="h-8 w-[150px] lg:w-[250px]"
+                type="email"
+                id="email"
+                placeholder="Email"
+              />
+            </div>
+          </div>
+        )}
+        {/* view no handphone */}
         {/* Update Input to handle global filtering */}
         <Input
           placeholder="Search all data..."
           value={globalFilterValue}
           onChange={(event) => table.setGlobalFilter(event.target.value)} // Set global filter
-          className="h-8 w-[150px] lg:w-[250px]"
+          className={`h-8 w-[150px] lg:w-[250px] ${
+            isViewNoHandphone ? "hidden" : ""
+          }`}
         />
+
+        {(isMedsos || isGMaps) && <Combobox items={items} />}
+
         {isSekretariat && (
           <Fragment>
             {table.getColumn("coverage_level") && (
@@ -65,7 +110,6 @@ export function DataTableToolbar<TData>({
             )}
           </Fragment>
         )}
-
         {isFiltered && (
           <Button
             variant="ghost"
@@ -77,7 +121,8 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
 
-        {isNoHandphone && (
+        {/* create button */}
+        {(isNoHandphone || isMedsos || isGMaps) && (
           <Fragment>
             <Button
               onClick={handleCreate}
@@ -89,6 +134,7 @@ export function DataTableToolbar<TData>({
             </Button>
           </Fragment>
         )}
+        {/* create button */}
       </div>
       <DataTableViewOptions table={table} />
     </div>

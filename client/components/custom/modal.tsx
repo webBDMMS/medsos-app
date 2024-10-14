@@ -10,6 +10,8 @@ import {
 import useDialogStore from "@/hooks/use-dialog";
 import ViewSekretariat from "@/sections/gedung/view-data";
 import ViewPhone from "@/sections/aset-digital/nomor-telepon/mutate-data";
+import MedsosActions from "@/sections/aset-digital/medsos/mutate-data";
+import GMapsActions from "@/sections/aset-digital/google-maps/mutate-data";
 
 export const CustomModal = () => {
   const { isOpen, closeDialog, dialogType } = useDialogStore();
@@ -27,6 +29,14 @@ export const CustomModal = () => {
           {dialogType === "sekretariat" && <ViewSekretariat />}
           {dialogType === "phone" && <ViewPhone />}
           {dialogType === "edit phone" && <ViewPhone isEdit={true} />}
+        </div>
+        <div className="w-full h-full min-w-[600px]">
+          {dialogType === "medsos" && <MedsosActions />}
+          {dialogType === "edit medsos" && <MedsosActions isEdit={true} />}
+        </div>
+        <div className="w-full h-full min-w-[600px]">
+          {dialogType === "gmaps" && <GMapsActions />}
+          {dialogType === "edit gmaps" && <GMapsActions isEdit={true} />}
         </div>
       </DialogContent>
     </Dialog>

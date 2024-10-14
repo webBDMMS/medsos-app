@@ -51,7 +51,7 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
             <div
               style={{ marginTop: "6px" }}
               className={`transition-all duration-300 ease-in-out ${
-                isExpired ? "mb-[34px]" : "mb-0"
+                isExpired ? "mb-[32px]" : "mb-0"
               }`}
             >
               <ComboboxForm
@@ -105,7 +105,7 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Accept terms and conditions
+                Nomor Masih Aktif
               </label>
             </div>
             {isExpired && (
@@ -125,7 +125,8 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <Separator />
+      <CardFooter className="flex justify-end mt-3 -mb-2">
         <Button onClick={form.handleSubmit(onSubmit)}>Simpan Data</Button>
       </CardFooter>
     </Card>

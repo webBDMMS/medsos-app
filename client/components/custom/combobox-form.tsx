@@ -63,7 +63,7 @@ export function ComboboxForm<T>({
                     variant="outline"
                     role="combobox"
                     className={cn(
-                      "w-full justify-between",
+                      "w-full justify-between h-10",
                       !field.value && "text-muted-foreground"
                     )}
                   >

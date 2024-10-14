@@ -48,7 +48,7 @@ export const KotaGO = Array.from({ length: 5 }).map((_, i) => ({
   label: `Kota GO - ${i + 1}`,
 }));
 
-export const SekretariatList = Array.from({ length: 5 }).map((_, i) => ({
+export const SekretariatList = Array.from({ length: 10 }).map((_, i) => ({
   value: `sekretariat_${i + 1}`,
   label: `Sekretariat - ${i + 1}`,
 }));
@@ -56,6 +56,12 @@ export const SekretariatList = Array.from({ length: 5 }).map((_, i) => ({
 export const PjList = Array.from({ length: 5 }).map((_, i) => ({
   value: `pj_${i + 1}`,
   label: `PJ - ${i + 1}`,
+}));
+
+
+export const phoneNumbers = Array.from({ length: 5 }).map((_, i) => ({
+  value: `08${Math.floor(Math.random() * 1000000000)}`, // Indonesian phone numbers start with 08
+  label: `Phone - ${i + 1}`,
 }));
 
 

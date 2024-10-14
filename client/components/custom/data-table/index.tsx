@@ -64,11 +64,13 @@ export function DataTable<TData, TValue>({
   const pathConditions = {
     isSekretariat: pathname === "/gedung",
     isNoHandphone: pathname === "/aset-digital/nomor-telepon",
+    isMedsos: pathname === "/aset-digital/media-sosial",
+    isGMaps: pathname === "/aset-digital/google-maps",
     // Add more conditions as needed
   };
 
   // You can now access the conditions like this:
-  const { isSekretariat, isNoHandphone } = pathConditions;
+  const { isSekretariat, isNoHandphone, isMedsos, isGMaps } = pathConditions;
 
   const handleRowDoubleClick = (rowId: string) => {
     console.log(rowId);
@@ -84,6 +86,12 @@ export function DataTable<TData, TValue>({
     console.log(rowId);
     if (isNoHandphone) {
       openDialog(rowId, "edit phone");
+    }
+    if (isMedsos) {
+      openDialog(null, "edit medsos");
+    }
+    if (isGMaps) {
+      openDialog(null, "edit gmaps");
     }
   };
 
@@ -146,7 +154,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <React.Fragment key={row.id}>
-                  {isNoHandphone ? ( // Aktifkan ContextMenu hanya jika pathname cocok
+                  {isNoHandphone || isMedsos || isGMaps ? ( // Aktifkan ContextMenu hanya jika pathname cocok
                     <ContextMenu>
                       <ContextMenuTrigger asChild>
                         <TableRow
@@ -167,6 +175,7 @@ export function DataTable<TData, TValue>({
                         <ContextMenuLabel>Actions</ContextMenuLabel>
                         <Separator />
                         <ContextMenuItem
+                          className={`${isMedsos || isGMaps ? "hidden" : ""}`}
                           onClick={() => handleViews(row.original.id!)}
                         >
                           View
