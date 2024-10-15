@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const MedsosActions = ({ isEdit }: { isEdit?: boolean }) => {
   const [isAktif, setIsAktif] = useState(false);
   const leftMedsosData = MedsosData.slice(0, 2);

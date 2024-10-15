@@ -10,10 +10,14 @@ export const columnsView: ColumnDef<ViewNomor>[] = [
   {
     accessorKey: "no",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No" />
+      <DataTableColumnHeader
+        className="text-center w-[30px]"
+        column={column}
+        title="No"
+      />
     ),
     cell: ({ row }: { row: any }) => (
-      <div className="w-[80px] text-center">{row.index + 1}</div>
+      <div className="w-[30px] text-center">{row.index + 1}</div>
     ),
     enableSorting: false,
     enableHiding: false,

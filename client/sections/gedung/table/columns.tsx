@@ -10,10 +10,14 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "no",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No" />
+      <DataTableColumnHeader
+        className="text-center w-[30px]"
+        column={column}
+        title="No"
+      />
     ),
     cell: ({ row }: { row: any }) => (
-      <div className="w-[80px] text-center">{row.index + 1}</div>
+      <div className="w-[30px] text-center">{row.index + 1}</div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -59,7 +63,7 @@ export const columns: ColumnDef<Secretariat>[] = [
     cell: ({ row }) => (
       <a target="_blank" href={row.getValue("google_maps")}>
         <div className="max-w-[500px] truncate font-medium cursor-pointer hover:underline">
-         <span className="text-primary">{row.getValue("google_maps")}</span>
+          <span className="text-primary">{row.getValue("google_maps")}</span>
         </div>
       </a>
     ),

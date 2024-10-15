@@ -50,13 +50,13 @@ export const navItems: NavItem[] = [
         children: [
           {
             title: "Input Produktivitas",
-            href: "/aset-digital/produktivitas-digital",
+            href: "/productivitas-digital/input-productivitas",
             icon: "filecheck",
             label: "produktivitas-digital",
           },
           {
             title: "Verfikasi Produktivitas",
-            href: "/aset-digital/verfikasi-produktivitas",
+            href: "/productivitas-digital/verifikasi-productivitas",
             icon: "clipboard",
             label: "verfikasi-produktivitas",
           },

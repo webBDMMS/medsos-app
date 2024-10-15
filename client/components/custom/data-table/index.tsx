@@ -66,11 +66,13 @@ export function DataTable<TData, TValue>({
     isNoHandphone: pathname === "/aset-digital/nomor-telepon",
     isMedsos: pathname === "/aset-digital/media-sosial",
     isGMaps: pathname === "/aset-digital/google-maps",
+    isProductivity: pathname === "/productivitas-digital/input-productivitas",
     // Add more conditions as needed
   };
 
   // You can now access the conditions like this:
-  const { isSekretariat, isNoHandphone, isMedsos, isGMaps } = pathConditions;
+  const { isSekretariat, isNoHandphone, isMedsos, isGMaps, isProductivity } =
+    pathConditions;
 
   const handleRowDoubleClick = (rowId: string) => {
     console.log(rowId);
@@ -110,7 +112,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
-        pageSize: 20,
+        pageSize: isProductivity ? 10 : 20,
       },
     },
     globalFilterFn: "includesString", // Set global filter function
