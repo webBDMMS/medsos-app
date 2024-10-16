@@ -1,12 +1,8 @@
-import VerifikasiProductivitas from "@/sections/productivitas-digital/verifikasi-productivitas/mutate-data";
+import VerifikasiProductivitas from "@/sections/productivitas-digital/verifikasi-productivitas";
 import React from "react";
 
 function page() {
-  return (
-    <div>
-      <VerifikasiProductivitas />
-    </div>
-  );
+  return <VerifikasiProductivitas />;
 }
 
 export default page;

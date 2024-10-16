@@ -12,6 +12,7 @@ import ViewSekretariat from "@/sections/gedung/view-data";
 import ViewPhone from "@/sections/aset-digital/nomor-telepon/mutate-data";
 import MedsosActions from "@/sections/aset-digital/medsos/mutate-data";
 import GMapsActions from "@/sections/aset-digital/google-maps/mutate-data";
+import VerifyActions from "@/sections/productivitas-digital/verifikasi-productivitas/mutate-data";
 
 export const CustomModal = () => {
   const { isOpen, closeDialog, dialogType } = useDialogStore();
@@ -37,6 +38,9 @@ export const CustomModal = () => {
         <div className="w-full h-full min-w-[600px]">
           {dialogType === "gmaps" && <GMapsActions />}
           {dialogType === "edit gmaps" && <GMapsActions isEdit={true} />}
+        </div>
+        <div className="w-full h-full min-w-[600px]">
+          {dialogType === "verify" && <VerifyActions />}
         </div>
       </DialogContent>
     </Dialog>

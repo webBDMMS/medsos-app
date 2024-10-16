@@ -69,7 +69,7 @@ export const navItems: NavItem[] = [
         children: [
           {
             title: "Pemenuhan Target Kerja",
-            href: "/aset-digital/pemenuhan-target-kerja",
+            href: "/dashboard-laporan/pemenuhan-target",
             icon: "calendarsearch",
             label: "pemenuhan-target-kerja",
           },

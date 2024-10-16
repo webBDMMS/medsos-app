@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
-import { id } from "date-fns/locale"; // Indonesian locale
+// import { id } from "date-fns/locale"; // Indonesian locale
 import { DateRange } from "react-day-picker";
 import { useState } from "react";
 
@@ -59,7 +59,7 @@ export function DatePickerWithRange({
                         id="date"
                         variant={"outline"}
                         className={cn(
-                          "w-[300px] justify-start text-left font-normal",
+                          "w-[300px] h-10 justify-start text-left font-normal",
                           !date && "text-muted-foreground"
                         )}
                       >

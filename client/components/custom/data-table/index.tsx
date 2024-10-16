@@ -67,16 +67,32 @@ export function DataTable<TData, TValue>({
     isMedsos: pathname === "/aset-digital/media-sosial",
     isGMaps: pathname === "/aset-digital/google-maps",
     isProductivity: pathname === "/productivitas-digital/input-productivitas",
+    isVerify: pathname === "/productivitas-digital/verifikasi-productivitas",
+    isFulfillment: pathname === "/dashboard-laporan/pemenuhan-target",
     // Add more conditions as needed
   };
 
   // You can now access the conditions like this:
-  const { isSekretariat, isNoHandphone, isMedsos, isGMaps, isProductivity } =
-    pathConditions;
+  const {
+    isSekretariat,
+    isNoHandphone,
+    isMedsos,
+    isGMaps,
+    isProductivity,
+    isVerify,
+    isFulfillment,
+  } = pathConditions;
 
   const handleRowDoubleClick = (rowId: string) => {
     console.log(rowId);
-    openDialog(rowId, "sekretariat");
+
+    if (isSekretariat) {
+      openDialog(rowId, "sekretariat");
+    }
+
+    if (isVerify) {
+      openDialog(rowId, "verify");
+    }
   };
 
   const handleViews = (rowId: string) => {
@@ -112,7 +128,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
-        pageSize: isProductivity ? 10 : 20,
+        pageSize: isProductivity || isVerify || isFulfillment ? 10 : 20,
       },
     },
     globalFilterFn: "includesString", // Set global filter function
@@ -208,7 +224,7 @@ export function DataTable<TData, TValue>({
                       className="transition hover:cursor-pointer hover:bg-muted"
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      {...(isSekretariat
+                      {...(isSekretariat || isVerify
                         ? {
                             onDoubleClick: () =>
                               handleRowDoubleClick(row.original.id!),
