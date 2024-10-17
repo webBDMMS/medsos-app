@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { CustomModal } from "@/components/custom/modal";
 import Container from "@/components/custom/layouts/container";
 import { DataTable } from "@/components/custom/data-table";
 import { columns } from "./table/columns-gmaps";
@@ -17,7 +16,6 @@ const VerifikasiProductivitas = () => {
 
   return (
     <Container>
-      <CustomModal />
       <FillterActions />
       <Separator className="my-3" />
       {selectedValue === "instagram" ? (

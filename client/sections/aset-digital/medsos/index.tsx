@@ -3,7 +3,6 @@ import Container from "@/components/custom/layouts/container";
 import React from "react";
 import { columns } from "./table/columns";
 import medsos from "@/constants/media-sosial/medsos.json";
-import { CustomModal } from "@/components/custom/modal";
 import { MedsosSchema } from "@/constants/media-sosial/data";
 
 const Medsos = () => {
@@ -11,7 +10,6 @@ const Medsos = () => {
 
   return (
     <Container>
-      <CustomModal />
       <DataTable columns={columns} data={validatedData} />
     </Container>
   );

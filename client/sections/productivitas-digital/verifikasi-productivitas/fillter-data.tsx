@@ -29,6 +29,9 @@ const FillterActions = () => {
 
   const form = useForm<CreateMedsos>({
     resolver: zodResolver(CreateMedsosSchema),
+    defaultValues: {
+      platform_type: "google_maps",
+    },
   });
 
   const onSubmit = (data: CreateMedsos) => {
@@ -93,6 +96,7 @@ const FillterActions = () => {
             form={form}
             fieldName="dateRange"
             placeholder="Pick a date range"
+            limitToTwoMonths={true}
           />
         </div>
         <Button

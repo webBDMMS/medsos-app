@@ -23,7 +23,7 @@ export const columns: ColumnDef<Medsos>[] = [
   {
     accessorKey: "city",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="City" />
+      <DataTableColumnHeader column={column} title="Kota" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -34,7 +34,7 @@ export const columns: ColumnDef<Medsos>[] = [
   {
     accessorKey: "account_name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Account Name" />
+      <DataTableColumnHeader column={column} title="Nama Akun" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">

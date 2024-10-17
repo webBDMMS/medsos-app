@@ -25,7 +25,7 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "secretariat",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Secretariat" />
+      <DataTableColumnHeader column={column} title="Sekretariat" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -36,7 +36,7 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "coverage_level",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Coverage Level" />
+      <DataTableColumnHeader column={column} title="Tingkat Cakupan" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -47,7 +47,7 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "address",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Address" />
+      <DataTableColumnHeader column={column} title="Alamat" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -58,7 +58,7 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "google_maps",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Google Maps" />
+      <DataTableColumnHeader column={column} title="Titik Google Maps" />
     ),
     cell: ({ row }) => (
       <a target="_blank" href={row.getValue("google_maps")}>
@@ -71,7 +71,7 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "instagram_account",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Instagram Account" />
+      <DataTableColumnHeader column={column} title="Akun Instagram" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -82,7 +82,7 @@ export const columns: ColumnDef<Secretariat>[] = [
   {
     accessorKey: "no_halo",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No Halo" />
+      <DataTableColumnHeader column={column} title="Nomor Halo" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">

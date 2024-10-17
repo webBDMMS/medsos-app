@@ -28,7 +28,7 @@ import {
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import useDialogStore from "@/hooks/use-dialog";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -61,6 +61,9 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
   const { openDialog } = useDialogStore();
 
+  const params = useParams<{ id: string }>();
+  const id = params.id;
+
   const pathConditions = {
     isSekretariat: pathname === "/gedung",
     isNoHandphone: pathname === "/aset-digital/nomor-telepon",
@@ -69,6 +72,9 @@ export function DataTable<TData, TValue>({
     isProductivity: pathname === "/productivitas-digital/input-productivitas",
     isVerify: pathname === "/productivitas-digital/verifikasi-productivitas",
     isFulfillment: pathname === "/dashboard-laporan/pemenuhan-target",
+    isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/${id}`,
+    isCompletePorductivity:
+      pathname === `/dashboard-laporan/complete-productivity`,
     // Add more conditions as needed
   };
 
@@ -81,6 +87,8 @@ export function DataTable<TData, TValue>({
     isProductivity,
     isVerify,
     isFulfillment,
+    isViewNoHandphone,
+    isCompletePorductivity,
   } = pathConditions;
 
   const handleRowDoubleClick = (rowId: string) => {
@@ -102,7 +110,7 @@ export function DataTable<TData, TValue>({
 
   const handleEdit = (rowId: string) => {
     console.log(rowId);
-    if (isNoHandphone) {
+    if (isViewNoHandphone) {
       openDialog(rowId, "edit phone");
     }
     if (isMedsos) {
@@ -117,6 +125,16 @@ export function DataTable<TData, TValue>({
     console.log(rowId);
   };
 
+  // ? adjust for set paginations
+  const initialState =
+    pathname !== "/dashboard-laporan/complete-productivity"
+      ? {
+          pagination: {
+            pageSize: isProductivity || isVerify || isFulfillment ? 10 : 20,
+          },
+        }
+      : undefined; // or just set to null if preferred
+
   const table = useReactTable({
     data,
     columns,
@@ -126,11 +144,7 @@ export function DataTable<TData, TValue>({
       rowSelection,
       columnFilters,
     },
-    initialState: {
-      pagination: {
-        pageSize: isProductivity || isVerify || isFulfillment ? 10 : 20,
-      },
-    },
+    initialState,
     globalFilterFn: "includesString", // Set global filter function
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -172,7 +186,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <React.Fragment key={row.id}>
-                  {isNoHandphone || isMedsos || isGMaps ? ( // Aktifkan ContextMenu hanya jika pathname cocok
+                  {isNoHandphone || isMedsos || isGMaps || isViewNoHandphone ? ( // Aktifkan ContextMenu hanya jika pathname cocok
                     <ContextMenu>
                       <ContextMenuTrigger asChild>
                         <TableRow
@@ -193,7 +207,11 @@ export function DataTable<TData, TValue>({
                         <ContextMenuLabel>Actions</ContextMenuLabel>
                         <Separator />
                         <ContextMenuItem
-                          className={`${isMedsos || isGMaps ? "hidden" : ""}`}
+                          className={`${
+                            isMedsos || isGMaps || isViewNoHandphone
+                              ? "hidden"
+                              : ""
+                          }`}
                           onClick={() => handleViews(row.original.id!)}
                         >
                           View
@@ -202,6 +220,7 @@ export function DataTable<TData, TValue>({
                           </ContextMenuShortcut>
                         </ContextMenuItem>
                         <ContextMenuItem
+                          className={`${isNoHandphone ? "hidden" : ""}`}
                           onClick={() => handleEdit(row.original.id!)}
                         >
                           Edit
@@ -210,6 +229,7 @@ export function DataTable<TData, TValue>({
                           </ContextMenuShortcut>
                         </ContextMenuItem>
                         <ContextMenuItem
+                          className={`${isNoHandphone ? "hidden" : ""}`}
                           onClick={() => handleDelete(row.original.id!)}
                         >
                           Hapus
@@ -221,7 +241,7 @@ export function DataTable<TData, TValue>({
                     </ContextMenu>
                   ) : (
                     <TableRow
-                      className="transition hover:cursor-pointer hover:bg-muted"
+                      className="transition hover:cursor-pointer hover:bg-muted "
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
                       {...(isSekretariat || isVerify
@@ -232,7 +252,14 @@ export function DataTable<TData, TValue>({
                         : {})}
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell
+                          className={
+                            isCompletePorductivity
+                              ? "border border-[#262626]"
+                              : ""
+                          }
+                          key={cell.id}
+                        >
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -256,7 +283,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {pathname !== "/dashboard-laporan/complete-productivity" && (
+        <DataTablePagination table={table} />
+      )}
     </div>
   );
 }

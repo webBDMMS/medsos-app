@@ -52,6 +52,7 @@ export const CreateMedsosSchema = z
       .email()
       .min(1, { message: "email akun is required" }),
     status: z.enum(["Aktif", "Non Aktif"]),
+    platform_type: z.string(),
     reasons: z.string().optional(), // reasons is optional initially
   })
   .superRefine((data, ctx) => {
