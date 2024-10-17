@@ -6,6 +6,7 @@ import { GedungModule } from './gedung/gedung.module';
 import { NoTlpModule } from './asetdigital/no_tlp/no_tlp.module';
 import { InstagramModule } from './asetdigital/instagram/instagram.module';
 import { GmapsModule } from './asetdigital/gmaps/gmaps.module';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { GmapsModule } from './asetdigital/gmaps/gmaps.module';
     GmapsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
