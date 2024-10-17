@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model asset_google_maps {
+  id                   Int       @id @default(autoincrement())
+  id_unit              Int?      @db.SmallInt
+  email_account_bisnis String?   @db.VarChar(32)
+  unit_bisnis          String?   @db.VarChar(50)
+  url_google_maps      String?   @db.VarChar(255)
+  no_telp_publish      String?   @db.VarChar(255)
+  link_wa              String?   @db.VarChar(255)
+  status               String?   @db.VarChar(255)
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @updatedAt @db.Timestamp(6)
+}
+
+model asset_medsos {
+  id             Int       @id @default(autoincrement())
+  id_unit        Int?
+  id_sekretariat Int?
+  no_telepon     String?   @db.VarChar(25)
+  nama_akun      String?   @db.VarChar(25)
+  username       String?   @db.VarChar(25)
+  password       String?   @db.VarChar(25)
+  url_akun       String?   @db.VarChar(25)
+  email_akun     String?   @db.VarChar(25)
+  status         String?   @db.VarChar(25)
+  notes          String?   @db.VarChar(255)
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @updatedAt @db.Timestamp(6)
+}
+
+model asset_telepon {
+  id                Int       @id @default(autoincrement())
+  id_unit           Int?      @db.SmallInt
+  no_telepon        String?   @db.VarChar(32)
+  provider          String?   @db.VarChar(50)
+  tanggal_aktif     String?   @db.VarChar(255)
+  tanggal_non_aktif String?   @db.VarChar(255)
+  penanggung_jawab  String?   @db.VarChar(255)
+  is_published      String?   @db.VarChar(255)
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @updatedAt @db.Timestamp(6)
+  id_sekretariat    String?   @db.VarChar(255)
+}
+
+model master_kota_go {
+  id         Int       @id @default(autoincrement())
+  name       String?   @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @updatedAt @db.Timestamp(6)
+  id_cabang  Int?      @db.SmallInt
+}
+
+model master_platform {
+  id         Int       @id @default(autoincrement())
+  name       String?   @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @updatedAt @db.Timestamp(6)
+}
+
+model master_unit_pj {
+  id             Int       @id @default(autoincrement())
+  id_unit        Int?      @db.SmallInt
+  pj_pusat       Int?      @db.SmallInt
+  id_cabang      Int?      @db.SmallInt
+  cabang         String?   @db.VarChar(255)
+  id_kota        Int?      @db.SmallInt
+  kota           String?   @db.VarChar(255)
+  unit           String?   @db.VarChar(255)
+  nama_gedung    String?   @db.VarChar(255)
+  is_sekretariat String?   @db.VarChar(255)
+  id_pj_cabang   String?   @db.VarChar(16)
+  nama_pj_cabang String?   @db.VarChar(255)
+  updated_at     DateTime? @updatedAt @db.Timestamp(6)
+  crreated_at    DateTime? @db.Timestamp(6)
+}
+
+model produktivitas_digital {
+  id                 Int       @id @default(autoincrement())
+  id_kota            Int?      @db.SmallInt
+  id_unit            Int?      @db.SmallInt
+  id_platform        Int?      @db.SmallInt
+  link_produktivitas String?   @db.VarChar(255)
+  id_user_input      String?   @db.VarChar(255)
+  tanggal_input      DateTime? @db.Date
+  is_approved        Boolean?
+  id_user_verify     Int?      @db.SmallInt
+  tanggal_verify     DateTime? @db.Timestamp(6)
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @updatedAt @db.Timestamp(6)
+}
+
+model master_pj_cabang {
+  id    Int     @id
+  nama  String? @db.VarChar(255)
+  email String? @db.VarChar(255)
+  telp  String? @db.VarChar(255)
+}
+
+model master_pj_pusat {
+  id    Int     @id
+  nama  String  @db.VarChar(255)
+  email String? @db.VarChar(255)
+  telp  String  @db.VarChar(255)
+}
