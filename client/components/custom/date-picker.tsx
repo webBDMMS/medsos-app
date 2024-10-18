@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import { format, isBefore, subDays } from "date-fns";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -16,9 +16,30 @@ import {
 interface DatePickerProps {
   value?: Date;
   onChange?: (date: Date | undefined) => void;
+  twoDays?: boolean;
 }
 
-export function DatePicker({ value, onChange }: DatePickerProps) {
+export function DatePicker({
+  value,
+  onChange,
+  twoDays = false,
+}: DatePickerProps) {
+  const today = React.useMemo(() => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }, []);
+
+  const yesterday = React.useMemo(() => subDays(today, 1), [today]);
+
+  const disabledDates = React.useCallback(
+    (date: Date) => {
+      if (!twoDays) return false;
+      return isBefore(date, yesterday) || date > today;
+    },
+    [twoDays, yesterday, today]
+  );
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,6 +59,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
           mode="single"
           selected={value}
           onSelect={onChange}
+          disabled={disabledDates}
           initialFocus
         />
       </PopoverContent>

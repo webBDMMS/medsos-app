@@ -34,7 +34,7 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
   };
 
   return (
-    <Card className="w-full border-primary">
+    <Card className="w-full border-primary dark:border-muted-foreground">
       <CardContent className="py-3">
         <div className="flex gap-4 w-full">
           <div className="w-full">

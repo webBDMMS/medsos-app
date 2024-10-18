@@ -44,7 +44,7 @@ const MedsosActions = ({ isEdit }: { isEdit?: boolean }) => {
   };
 
   return (
-    <Card className="w-full border-primary">
+    <Card className="w-full border-primary dark:border-muted-foreground">
       <CardContent className="p-3 flex gap-4">
         <div className="w-full mt-[6px]">
           <ComboboxForm

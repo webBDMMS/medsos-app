@@ -1,12 +1,10 @@
+'use client'
 import Sidebar from "@/components/custom/layouts/sidebar";
 import Header from "@/components/custom/layouts/header";
-import type { Metadata } from "next";
 import CustomModal from "@/components/custom/modal";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export const metadata: Metadata = {
-  title: "Next Shadcn Dashboard Starter",
-  description: "Basic dashboard with Next.js and Shadcn",
-};
+const queryClient = new QueryClient();
 
 export default function DashboardLayout({
   children,
@@ -14,13 +12,15 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="w-full flex-1 overflow-hidden">
-        <Header />
-        <CustomModal />
-        {children}
-      </main>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="flex">
+        <Sidebar />
+        <main className="w-full flex-1 overflow-hidden">
+          <Header />
+          <CustomModal />
+          {children}
+        </main>
+      </div>
+    </QueryClientProvider>
   );
 }

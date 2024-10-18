@@ -49,7 +49,9 @@ const NavItemContent = React.memo(
       <div
         className={cn(
           "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-          path === item.href ? "bg-primary" : "transparent",
+          path === item.href
+            ? "bg-primary text-white dark:text-zinc-950  "
+            : "transparent",
           item.disabled && "cursor-not-allowed opacity-80"
         )}
       >
