@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Param,
   Query,
   // Post,
   // Body,
@@ -17,41 +18,32 @@ import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 @ApiTags('Sekretariat')
 export class SekretariatController {
   constructor(private readonly sekretariatService: SekretariatService) {}
-
-  // @Post()
-  // create(@Body() createSekretariatDto: CreateSekretariatDto) {
-  //   return this.sekretariatService.create(createSekretariatDto);
-  // }
+  @Get('kotago')
+  @ApiOperation({ summary: 'kosongkan id untuk get semua kota' })
+  @ApiQuery({ name: 'idpjcabang', example: '2', required: false })
+  getKotaGo(@Query('idpjcabang') idPjCabang?: string) {
+    if (idPjCabang) {
+      return this.sekretariatService.getKotaByPj(idPjCabang);
+    }
+    return this.sekretariatService.getAllKotaGo();
+  }
 
   @Get()
   @ApiOperation({ summary: 'Get Sekretariat' })
   @ApiQuery({ name: 'idpjcabang', example: '2', required: false })
   findAll(@Query('idpjcabang') idPjCabang?: string) {
-    // Jika ada query parameter 'idpjcabang', maka panggil findByPjCabang
     if (idPjCabang) {
-      console.log(idPjCabang);
       return this.sekretariatService.findByPjCabang(idPjCabang);
     }
     console.log('tidak ada idpjcabang');
 
     return this.sekretariatService.findAll();
   }
+  @Get(':idsekre')
+  @ApiOperation({ summary: 'Get Detail Sekretariat' })
+  async getDetailSekre(@Param('idsekre') id: string) {
+    const numericId = Number(id);
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.sekretariatService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateSekretariatDto: UpdateSekretariatDto,
-  // ) {
-  //   return this.sekretariatService.update(+id, updateSekretariatDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.sekretariatService.remove(+id);
-  // }
+    return this.sekretariatService.findOne(numericId);
+  }
 }
