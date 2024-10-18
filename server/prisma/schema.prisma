@@ -76,10 +76,11 @@ model master_unit_pj {
   unit           String?   @db.VarChar(255)
   nama_gedung    String?   @db.VarChar(255)
   is_sekretariat String?   @db.VarChar(255)
-  id_pj_cabang   String?   @db.VarChar(16)
+  id_pj_cabang   String?   @db.VarChar(255)
   nama_pj_cabang String?   @db.VarChar(255)
   updated_at     DateTime? @updatedAt @db.Timestamp(6)
-  crreated_at    DateTime? @db.Timestamp(6)
+  created_at     DateTime? @db.Timestamp(6)
+  alamat         String?   @db.VarChar(255)
 }
 
 model produktivitas_digital {
