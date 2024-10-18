@@ -1,15 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { ComboboxForm } from "@/components/custom/combobox-form";
+import { DatePickerWithRange } from "@/components/custom/date-range-picker";
 // import { DatePickerWithRange } from "@/components/custom/date-range-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  CreateMedsos,
-  CreateMedsosSchema,
-} from "@/constants/media-sosial/data";
 import { useValue } from "@/hooks/use-value";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -23,11 +20,13 @@ const FillterActions = () => {
 
   console.log("selected platform", selectedValue);
 
-  const form = useForm<CreateMedsos>({
-    resolver: zodResolver(CreateMedsosSchema),
+  const form = useForm<any>({
+    defaultValues: {
+      platform_type: "google_maps",
+    },
   });
 
-  const onSubmit = (data: CreateMedsos) => {
+  const onSubmit = (data: any) => {
     console.log("Data Valid:", JSON.stringify(data));
   };
 
@@ -54,27 +53,25 @@ const FillterActions = () => {
           />
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label>Minggu</Label>
-          <div className="flex gap-2 items-center">
-            <Input
-              isNumbers
-              type="start"
-              id="start"
-              placeholder="Awal"
-            />
-            <span>s/d</span>
-            <Input isNumbers type="to" id="to" placeholder="Akhir" />
+        {selectedValue === "google_maps" ? (
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label>Minggu</Label>
+            <div className="flex gap-2 items-center">
+              <Input isNumbers type="start" id="start" placeholder="Awal" />
+              <span>s/d</span>
+              <Input isNumbers type="to" id="to" placeholder="Akhir" />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="-mt-[6px]">
+            <DatePickerWithRange
+              form={form}
+              fieldName="dateRange"
+              placeholder="Periode"
+            />
+          </div>
+        )}
 
-        {/* <div className="-mt-[6px]">
-          <DatePickerWithRange
-            form={form}
-            fieldName="dateRange"
-            placeholder="Pick a date range"
-          />
-        </div> */}
         <div className="mt-[26px]">
           <Button
             onClick={() => {
@@ -87,7 +84,6 @@ const FillterActions = () => {
           </Button>
         </div>
       </div>
-      <div></div>
     </div>
   );
 };

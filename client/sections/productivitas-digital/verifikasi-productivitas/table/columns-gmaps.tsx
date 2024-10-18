@@ -26,7 +26,7 @@ export const columns: ColumnDef<Verifikasi>[] = [
       <DataTableColumnHeader
         className="text-center"
         column={column}
-        title="city"
+        title="Kota"
       />
     ),
     cell: ({ row }) => (
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Verifikasi>[] = [
       <DataTableColumnHeader
         className="text-center"
         column={column}
-        title="school year"
+        title="Tahun Ajaran"
       />
     ),
     cell: ({ row }) => (
@@ -71,7 +71,7 @@ export const columns: ColumnDef<Verifikasi>[] = [
       <DataTableColumnHeader
         className="text-center"
         column={column}
-        title="Date"
+        title="Tanggal"
       />
     ),
     cell: ({ row }) => (
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Verifikasi>[] = [
       <DataTableColumnHeader
         className="text-center"
         column={column}
-        title="Link"
+        title="Link Ulasan"
       />
     ),
     cell: ({ row }) => (
@@ -116,7 +116,7 @@ export const columns: ColumnDef<Verifikasi>[] = [
       <DataTableColumnHeader
         className="text-center"
         column={column}
-        title="status productivity"
+        title="Status Produktivitas"
       />
     ),
     cell: ({ row }) => (
@@ -131,7 +131,7 @@ export const columns: ColumnDef<Verifikasi>[] = [
       <DataTableColumnHeader
         className="text-center"
         column={column}
-        title="Informations"
+        title="Keterangan"
       />
     ),
     cell: ({ row }) => {

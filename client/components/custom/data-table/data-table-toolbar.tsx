@@ -11,11 +11,12 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { secretariatData } from "@/constants/secretariat/data";
 import { useParams, usePathname } from "next/navigation";
 import { Fragment } from "react";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import useDialogStore from "@/hooks/use-dialog";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { items } from "@/constants/media-sosial/data";
+import Link from "next/link";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -40,16 +41,23 @@ export function DataTableToolbar<TData>({
     isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/${id}`,
     isMedsos: pathname === "/aset-digital/media-sosial",
     isGMaps: pathname === "/aset-digital/google-maps",
+    isCompletePorductivity:
+      pathname === `/dashboard-laporan/complete-productivity`,
     // Add more conditions as needed
   };
 
   // You can now access the conditions like this:
-  const { isSekretariat, isNoHandphone, isViewNoHandphone, isMedsos, isGMaps } =
-    pathConditions;
+  const {
+    isSekretariat,
+    isViewNoHandphone,
+    isMedsos,
+    isGMaps,
+    isCompletePorductivity,
+  } = pathConditions;
   //? ===== management path conditions =====
 
   const handleCreate = () => {
-    if (isNoHandphone) {
+    if (isViewNoHandphone) {
       openDialog(null, "phone");
     }
     if (isMedsos) {
@@ -63,6 +71,15 @@ export function DataTableToolbar<TData>({
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
+        {isCompletePorductivity && (
+          <Link href={"/dashboard-laporan/pemenuhan-target"}>
+            <Button className="h-[30px] px-2 lg:px-3">
+              <ArrowLeft className=" h-4 w-4 mr-1" />
+              Kembali
+            </Button>
+          </Link>
+        )}
+
         {/* view no handphone */}
         {isViewNoHandphone && (
           <div className="flex justify-center gap-5">
@@ -122,12 +139,12 @@ export function DataTableToolbar<TData>({
         )}
 
         {/* create button */}
-        {(isNoHandphone || isMedsos || isGMaps) && (
+        {(isViewNoHandphone || isMedsos || isGMaps) && (
           <Fragment>
             <Button
               onClick={handleCreate}
               variant="default"
-              className="h-8 px-2 lg:px-3"
+              className={`h-8 px-2 lg:px-3 ${isViewNoHandphone ? "mt-4" : ""}`}
             >
               Tambah Data
               <Plus className="ml-2 h-4 w-4" />

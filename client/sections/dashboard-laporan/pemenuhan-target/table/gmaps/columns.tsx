@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/custom/data-table/data-table-column-header";
-import { Productivitas } from "@/constants/productivitas-digital/input-productivitas/data";
+import { CompleteGmaps } from "@/constants/dashboard-laporan/pemenuhan-target/data";
 
-export const columns: ColumnDef<Productivitas>[] = [
+export const columnsGmapsAchieved: ColumnDef<CompleteGmaps>[] = [
   {
     accessorKey: "no",
     header: ({ column }) => (
@@ -12,16 +15,35 @@ export const columns: ColumnDef<Productivitas>[] = [
         title="No"
       />
     ),
-    cell: ({ row }) => (
+    cell: ({ row }: { row: any }) => (
       <div className="w-[30px] text-center">{row.index + 1}</div>
     ),
     enableSorting: false,
     enableHiding: false,
   },
   {
+    accessorKey: "city",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="text-center"
+        column={column}
+        title="Kota"
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="max-w-[500px] truncate font-medium">
+        {row.getValue("city")}
+      </div>
+    ),
+  },
+  {
     accessorKey: "sekretariat",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Sekretariat" />
+      <DataTableColumnHeader
+        className="text-center"
+        column={column}
+        title="Sekretariat"
+      />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -30,42 +52,32 @@ export const columns: ColumnDef<Productivitas>[] = [
     ),
   },
   {
-    accessorKey: "date",
+    accessorKey: "number_of_publication",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tanggal" />
+      <DataTableColumnHeader
+        className="text-center"
+        column={column}
+        title="Number of Publication"
+      />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {new Date(row.getValue("date")).toLocaleDateString()}
+        {row.getValue("number_of_publication")}
       </div>
     ),
   },
   {
-    accessorKey: "platform",
+    accessorKey: "phone",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jenis Platform" />
+      <DataTableColumnHeader
+        className="text-center"
+        column={column}
+        title="Phone"
+      />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("platform")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "link",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Link" />
-    ),
-    cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
-        <a
-          href={row.getValue("link")}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 underline"
-        >
-          {row.getValue("link")}
-        </a>
+        {row.getValue("phone")}
       </div>
     ),
   },

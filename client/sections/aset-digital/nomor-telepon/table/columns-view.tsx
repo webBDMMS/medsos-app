@@ -25,7 +25,7 @@ export const columnsView: ColumnDef<ViewNomor>[] = [
   {
     accessorKey: "phone_number",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No. Telepon" />
+      <DataTableColumnHeader column={column} title="Nomor Telepon" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -47,7 +47,7 @@ export const columnsView: ColumnDef<ViewNomor>[] = [
   {
     accessorKey: "pj",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="PJ" />
+      <DataTableColumnHeader column={column} title="Penanggung Jawab" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -58,7 +58,7 @@ export const columnsView: ColumnDef<ViewNomor>[] = [
   {
     accessorKey: "position",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Posisi" />
+      <DataTableColumnHeader column={column} title="Jabatan" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">

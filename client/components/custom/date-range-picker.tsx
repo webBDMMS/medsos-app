@@ -4,7 +4,6 @@
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
-// import { id } from "date-fns/locale"; // Indonesian locale
+import { id } from "date-fns/locale"; // Locale bahasa Indonesia
 import { DateRange } from "react-day-picker";
 import { useState } from "react";
 
@@ -27,6 +26,7 @@ interface DatePickerWithRangeProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  limitToTwoMonths?: boolean; // Props to control the two-month limit
 }
 
 export function DatePickerWithRange({
@@ -35,11 +35,18 @@ export function DatePickerWithRange({
   placeholder,
   disabled,
   className,
+  limitToTwoMonths = false, // Default is false, can be passed as true from parent
 }: DatePickerWithRangeProps) {
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
+
+  const currentMonth = new Date(); // Get the current month
+  const nextMonth = new Date(
+    currentMonth.getFullYear(),
+    currentMonth.getMonth() + 1
+  ); // Get the next month
 
   return (
     <Form {...form}>
@@ -67,14 +74,19 @@ export function DatePickerWithRange({
                         {date?.from ? (
                           date.to ? (
                             <>
-                              {format(date.from, "LLL dd, y")} -{" "}
-                              {format(date.to, "LLL dd, y")}
+                              {format(date.from, "dd MMMM yyyy", {
+                                locale: id,
+                              })}{" "}
+                              -{" "}
+                              {format(date.to, "dd MMMM yyyy", {
+                                locale: id,
+                              })}
                             </>
                           ) : (
-                            format(date.from, "LLL dd, y")
+                            format(date.from, "dd MMMM yyyy", { locale: id })
                           )
                         ) : (
-                          <span>Pick a date</span>
+                          <span>Pilih tanggal</span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -86,10 +98,12 @@ export function DatePickerWithRange({
                         selected={date}
                         onSelect={(newDate) => {
                           setDate(newDate);
-                          // Update form field value when date changes
-                          field.onChange(newDate); // Inform react-hook-form about the change
+                          field.onChange(newDate); // Update form field value
                         }}
                         numberOfMonths={2}
+                        // Limit calendar to show only the current and next month if the limit is active
+                        fromMonth={limitToTwoMonths ? currentMonth : undefined}
+                        toMonth={limitToTwoMonths ? nextMonth : undefined}
                       />
                     </PopoverContent>
                   </Popover>

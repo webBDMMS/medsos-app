@@ -35,8 +35,6 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
 
   return (
     <Card className="w-full border-primary">
-      <p className="font-bold my-1 text-center">Aset Google Maps</p>
-      <Separator />
       <CardContent className="py-3">
         <div className="flex gap-4 w-full">
           <div className="w-full">

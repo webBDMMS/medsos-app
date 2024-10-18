@@ -5,30 +5,42 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CreateMedsos,
-  CreateMedsosSchema,
-} from "@/constants/media-sosial/data";
 import { useForm } from "react-hook-form";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/custom/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { DataTable } from "@/components/custom/data-table";
 import { columns } from "./table/columns";
-import productivitas from "@/constants/productivitas-digital/input-productivitas/productivitas.json"
-import { ProductivitasSchema } from "@/constants/productivitas-digital/input-productivitas/data";
+import productivitas from "@/constants/productivitas-digital/input-productivitas/productivitas.json";
+import {
+  Productivitas,
+  ProductivitasSchema,
+} from "@/constants/productivitas-digital/input-productivitas/data";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const ProductivitasActions = () => {
-  const validatedData = productivitas.data.map((item) =>
-    ProductivitasSchema.parse(item)
-  );
+  // const validatedData = productivitas.data.map((item) => {
+  //   // Convert string date to Date object
+  //   if (typeof item.date === "string") {
+  //     item.date = new Date(item.date);
+  //   }
 
-  const form = useForm<CreateMedsos>({
-    resolver: zodResolver(CreateMedsosSchema),
+  //   // Validate data using Zod schema
+  //   return ProductivitasSchema.parse(item);
+  // });
+
+  const form = useForm<Productivitas>({
+    resolver: zodResolver(ProductivitasSchema),
   });
 
-  const onSubmit = (data: CreateMedsos) => {
+  const onSubmit = (data: Productivitas) => {
     console.log("Data Valid:", JSON.stringify(data));
   };
 
@@ -50,47 +62,94 @@ const ProductivitasActions = () => {
         <Card className="w-full border-primary h-[80dvh]">
           <p className="font-bold my-1 text-center">Input Productivitas</p>
           <Separator />
-          <CardContent className="p-3">
-            <div className="flex gap-3 mx-auto">
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="email">Kota</Label>
-                <Input type="email" id="email" placeholder="Email" />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="email">Sekretariat</Label>
-                <Input type="email" id="email" placeholder="Email" />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="email">Tanggall</Label>
-                <DatePicker />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="email">Jenis Flatform</Label>
-                <Input type="email" id="email" placeholder="Email" />
-              </div>
-            </div>
-            <div className="mt-3 border rounded-md grid grid-cols-5 px-1 h-[560px]">
-              <div className="col-span-1  p-3 border-r">
-                <p className="text-sm mb-3">Input Link Productivitas</p>
-                <Textarea />
-              </div>
-              <div className="col-span-4 p-3">
-                <p className="text-sm mb-3">Daftar Productivitas</p>
-                <DataTable columns={columns} data={validatedData} />
-              </div>
-            </div>
-          </CardContent>
-          <Separator />
-          <CardFooter className="flex justify-end mt-3 -mb-2">
-            <Button
-              onClick={() => {
-                handleCheckBeforeSubmit(); // Log values before submit
-                form.handleSubmit(onSubmit)(); // Proceed with submit
-              }}
-            >
-              Simpan Data
-            </Button>
-          </CardFooter>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <CardContent className="p-3">
+                <div className="flex gap-3 mx-auto">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem className="grid w-full max-w-lg items-center gap-1.5">
+                        <FormLabel htmlFor="kota">Kota</FormLabel>
+                        <FormControl>
+                          <Input id="kota" placeholder="Kota" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="sekretariat"
+                    render={({ field }) => (
+                      <FormItem className="grid w-full max-w-lg items-center gap-1.5">
+                        <FormLabel htmlFor="sekretariat">Sekretariat</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="sekretariat"
+                            placeholder="Sekretariat"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem className="grid w-full max-w-lg items-center gap-1.5">
+                        <FormLabel htmlFor="date">Tanggal</FormLabel>
+                        <FormControl>
+                          <DatePicker
+                            value={field.value}
+                            onChange={(date: Date | undefined) =>
+                              field.onChange(date)
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="mt-3 border rounded-md grid grid-cols-5 px-1 h-[570px]">
+                  <div className="col-span-1 p-3 border-r">
+                    <FormField
+                      control={form.control}
+                      name="link"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Input Link Productivitas</FormLabel>
+                          <FormControl>
+                            <Textarea className="h-[93%]" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="col-span-4 p-3">
+                    <p className="text-sm mb-3">Daftar Productivitas</p>
+                    <DataTable columns={columns} data={productivitas.data} />
+                  </div>
+                </div>
+              </CardContent>
+              <Separator />
+              <CardFooter className="flex justify-end mt-3 -mb-2">
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    handleCheckBeforeSubmit();
+                  }}
+                >
+                  Simpan Data
+                </Button>
+              </CardFooter>
+            </form>
+          </Form>
         </Card>
       </div>
     </div>

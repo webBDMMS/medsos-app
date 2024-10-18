@@ -65,8 +65,6 @@ const VerifyActions = () => {
 
   return (
     <Card className="w-full border-primary">
-      <p className="font-bold my-1 text-center">Update Status Productivity</p>
-      <Separator />
       <CardContent className="p-3 gap-4">
         <div className="flex gap-3 justify-center">
           <div className="w-full">
@@ -94,21 +92,20 @@ const VerifyActions = () => {
         </div>
         <div className="flex gap-3 justify-center mt-3">
           <Button
-            className={`w-full border-green-500 border ${
-              activeButton === "Acc" ? "bg-green-500" : "bg-zinc-950"
-            }`}
-            onClick={handleAccClick}
-          >
-            Acc
-          </Button>
-
-          <Button
             className={`w-full border-red-500 border ${
               activeButton === "Tidak Acc" ? "bg-red-500" : "bg-zinc-950"
             }`}
             onClick={handleTidakAccClick}
           >
             Tidak Acc
+          </Button>
+          <Button
+            className={`w-full border-green-500 border ${
+              activeButton === "Acc" ? "bg-green-500" : "bg-zinc-950"
+            }`}
+            onClick={handleAccClick}
+          >
+            Acc
           </Button>
         </div>
 

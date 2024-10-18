@@ -40,8 +40,6 @@ const GMapsActions = ({ isEdit }: { isEdit?: boolean }) => {
 
   return (
     <Card className="w-full border-primary">
-      <p className="font-bold my-1 text-center">Aset Google Maps</p>
-      <Separator />
       <CardContent className="p-3 flex gap-4">
         <div className="w-full mt-[6px]">
           <ComboboxForm

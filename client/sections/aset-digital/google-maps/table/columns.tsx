@@ -23,7 +23,7 @@ export const columns: ColumnDef<GMaps>[] = [
   {
     accessorKey: "city",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="City" />
+      <DataTableColumnHeader column={column} title="Kota" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -45,7 +45,7 @@ export const columns: ColumnDef<GMaps>[] = [
   {
     accessorKey: "business_unit_name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Business Unit Name" />
+      <DataTableColumnHeader column={column} title="Nama Unit Bisnis" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
@@ -56,7 +56,7 @@ export const columns: ColumnDef<GMaps>[] = [
   {
     accessorKey: "map_point",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Map Point" />
+      <DataTableColumnHeader column={column} title="Titik Google Maps" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
