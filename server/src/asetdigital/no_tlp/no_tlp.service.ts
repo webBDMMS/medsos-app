@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNoTlpDto } from './dto/create-no_tlp.dto';
-import { UpdateNoTlpDto } from './dto/update-no_tlp.dto';
-
+// import { CreateNoTlpDto } from './dto/create-no_tlp.dto';
+// import { UpdateNoTlpDto } from './dto/update-no_tlp.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { noTlpIntf } from 'src/interface/no_tlp.intf';
 @Injectable()
 export class NoTlpService {
-  create(createNoTlpDto: CreateNoTlpDto) {
-    return 'This action adds a new noTlp';
+  constructor(private prisma: PrismaService) {}
+  async findAll() {
+    try {
+      return this.prisma.asset_telepon.findMany();
+    } catch (error) {
+      throw error;
+    }
   }
+  async getNoTelpByIdUnit(idUnit: number): Promise<noTlpIntf[]> {
+    try {
+      const teleponRecords = await this.prisma.asset_telepon.findMany({
+        where: {
+          id_unit: idUnit,
+        },
+      });
 
-  findAll() {
-    return `This action returns all noTlp`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} noTlp`;
-  }
-
-  update(id: number, updateNoTlpDto: UpdateNoTlpDto) {
-    return `This action updates a #${id} noTlp`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} noTlp`;
+      return teleponRecords;
+    } catch (error) {
+      throw error;
+    }
   }
 }

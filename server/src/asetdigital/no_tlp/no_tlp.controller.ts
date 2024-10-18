@@ -1,34 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  // Post,
+  // Body,
+  // Patch,
+  Param,
+  // Delete,
+} from '@nestjs/common';
 import { NoTlpService } from './no_tlp.service';
-import { CreateNoTlpDto } from './dto/create-no_tlp.dto';
-import { UpdateNoTlpDto } from './dto/update-no_tlp.dto';
+// import { CreateNoTlpDto } from './dto/create-no_tlp.dto';
+// import { UpdateNoTlpDto } from './dto/update-no_tlp.dto';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-@Controller('no-tlp')
+@Controller('/no-tlp')
+@ApiTags('No Telepon')
 export class NoTlpController {
   constructor(private readonly noTlpService: NoTlpService) {}
-
-  @Post()
-  create(@Body() createNoTlpDto: CreateNoTlpDto) {
-    return this.noTlpService.create(createNoTlpDto);
+  @Get('')
+  @ApiOperation({ summary: 'get no telepon by id sekretariat' })
+  async getNoTlpbySekre(@Param('id_sekre') id) {
+    return this.noTlpService.getNoTelpByIdUnit(id);
   }
-
-  @Get()
-  findAll() {
+  @Get('/all')
+  @ApiOperation({ summary: 'get all no telepon' })
+  async getAllNoTlp() {
     return this.noTlpService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.noTlpService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNoTlpDto: UpdateNoTlpDto) {
-    return this.noTlpService.update(+id, updateNoTlpDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.noTlpService.remove(+id);
   }
 }
