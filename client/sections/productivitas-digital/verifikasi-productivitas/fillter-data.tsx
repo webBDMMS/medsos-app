@@ -96,7 +96,7 @@ const FillterActions = () => {
             form={form}
             fieldName="dateRange"
             placeholder="Pick a date range"
-            limitToTwoMonths={true}
+            limitToTwoMonths
           />
         </div>
         <Button

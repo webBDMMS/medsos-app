@@ -79,26 +79,29 @@ export const columns: ColumnDef<Secretariat>[] = [
       </div>
     ),
   },
-  {
-    accessorKey: "no_halo",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nomor Halo" />
-    ),
-    cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("no_halo")}
-      </div>
-    ),
-  },
+  // {
+  //   accessorKey: "no_halo",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Nomor Halo" />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <div className="max-w-[500px] truncate font-medium">
+  //       {row.getValue("no_halo")}
+  //     </div>
+  //   ),
+  // },
   {
     accessorKey: "fix_phone",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Fix Phone" />
     ),
-    cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("fix_phone")}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const vFixPhone: string | null = row.getValue("fix_phone");
+      return (
+        <div className="max-w-[500px] truncate font-medium">
+          {vFixPhone ? vFixPhone : <span className="text-center">-</span>}
+        </div>
+      );
+    },
   },
 ];

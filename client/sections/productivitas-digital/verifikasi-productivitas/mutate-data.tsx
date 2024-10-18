@@ -64,7 +64,7 @@ const VerifyActions = () => {
   };
 
   return (
-    <Card className="w-full border-primary">
+    <Card className="w-full border-primary dark:border-muted-foreground">
       <CardContent className="p-3 gap-4">
         <div className="flex gap-3 justify-center">
           <div className="w-full">

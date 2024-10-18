@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import { TOC } from "./tree";
 
-type SelectedItem = {
-  cabang: string;
-  kota: string;
-  sekretariat: string;
-}
+type Item = {
+  setSelectedItem: (item: {
+    cabang: string;
+    kota: string;
+    sekretariat: string;
+  }) => void;
+};
 
-const TOCWrapper = () => {
+const TOCWrapper = ({ setSelectedItem }: Item) => {
   const toc = [
     {
       id: "4e1a8b52-d8f8-41c9-a7c4-3d815c32fbb6",
@@ -59,10 +60,6 @@ const TOCWrapper = () => {
       ],
     },
   ];
-
-  const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
-
-  console.log("eyyow selected", selectedItem);
 
   return <TOC toc={toc} setSelectedItem={setSelectedItem} />;
 };

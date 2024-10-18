@@ -65,6 +65,7 @@ const FillterActions = () => {
         ) : (
           <div className="-mt-[6px]">
             <DatePickerWithRange
+              limitToTwoMonths
               form={form}
               fieldName="dateRange"
               placeholder="Periode"

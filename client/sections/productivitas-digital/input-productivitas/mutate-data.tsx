@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TOCWrapper from "./tree/toc";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -25,16 +25,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const ProductivitasActions = () => {
-  // const validatedData = productivitas.data.map((item) => {
-  //   // Convert string date to Date object
-  //   if (typeof item.date === "string") {
-  //     item.date = new Date(item.date);
-  //   }
+type SelectedItem = {
+  cabang: string;
+  kota: string;
+  sekretariat: string;
+};
 
-  //   // Validate data using Zod schema
-  //   return ProductivitasSchema.parse(item);
-  // });
+const ProductivitasActions = () => {
+  const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
+
+  console.log("eyyow selected", selectedItem);
+
+  const productivitasData = productivitas.data.map((item) => ({
+    ...item,
+    date: new Date(item.date),
+  }));
 
   const form = useForm<Productivitas>({
     resolver: zodResolver(ProductivitasSchema),
@@ -43,6 +48,14 @@ const ProductivitasActions = () => {
   const onSubmit = (data: Productivitas) => {
     console.log("Data Valid:", JSON.stringify(data));
   };
+
+  // Watch for changes in selectedItem and set form values accordingly
+  useEffect(() => {
+    if (selectedItem) {
+      form.setValue("city", selectedItem.kota);
+      form.setValue("sekretariat", selectedItem.sekretariat);
+    }
+  }, [selectedItem, form]);
 
   // Log valid and invalid values before submitting
   const handleCheckBeforeSubmit = () => {
@@ -56,10 +69,10 @@ const ProductivitasActions = () => {
   return (
     <div className="grid grid-cols-7 h-full">
       <div className="col-span-1 ">
-        <TOCWrapper />
+        <TOCWrapper setSelectedItem={setSelectedItem} />
       </div>
       <div className="col-span-6 p-3 h-full">
-        <Card className="w-full border-primary h-[80dvh]">
+        <Card className="w-full border-primary h-[80dvh] dark:border-muted-foreground">
           <p className="font-bold my-1 text-center">Input Productivitas</p>
           <Separator />
           <Form {...form}>
@@ -73,7 +86,13 @@ const ProductivitasActions = () => {
                       <FormItem className="grid w-full max-w-lg items-center gap-1.5">
                         <FormLabel htmlFor="kota">Kota</FormLabel>
                         <FormControl>
-                          <Input id="kota" placeholder="Kota" {...field} />
+                          <Input
+                            disabled
+                            defaultValue={field.value || ""}
+                            id="kota"
+                            placeholder="Kota"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -87,6 +106,8 @@ const ProductivitasActions = () => {
                         <FormLabel htmlFor="sekretariat">Sekretariat</FormLabel>
                         <FormControl>
                           <Input
+                            disabled
+                            defaultValue={field.value || ""}
                             id="sekretariat"
                             placeholder="Sekretariat"
                             {...field}
@@ -104,6 +125,7 @@ const ProductivitasActions = () => {
                         <FormLabel htmlFor="date">Tanggal</FormLabel>
                         <FormControl>
                           <DatePicker
+                            twoDays
                             value={field.value}
                             onChange={(date: Date | undefined) =>
                               field.onChange(date)
@@ -133,16 +155,19 @@ const ProductivitasActions = () => {
                   </div>
                   <div className="col-span-4 p-3">
                     <p className="text-sm mb-3">Daftar Productivitas</p>
-                    <DataTable columns={columns} data={productivitas.data} />
+                    <DataTable columns={columns} data={productivitasData} />
                   </div>
                 </div>
               </CardContent>
               <Separator />
-              <CardFooter className="flex justify-end mt-3 -mb-2">
+              <CardFooter className="flex justify-end mt-1 -me-4">
                 <Button
                   type="submit"
                   onClick={() => {
-                    handleCheckBeforeSubmit();
+                    {
+                      handleCheckBeforeSubmit();
+                      form.handleSubmit(onSubmit)();
+                    }
                   }}
                 >
                   Simpan Data
