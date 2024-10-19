@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -40,7 +41,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Delete, Pencil, ScanSearch } from "lucide-react";
 
-interface DataTableProps<TData extends { id?: string }, TValue> {
+interface DataTableProps<TData extends { id?: any }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
@@ -48,7 +49,7 @@ interface DataTableProps<TData extends { id?: string }, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData & { id?: string }, TValue>) {
+}: DataTableProps<TData & { id?: any }, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -61,7 +62,7 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
   const { openDialog } = useDialogStore();
 
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: any }>();
   const id = params.id;
 
   const pathConditions = {
@@ -91,7 +92,7 @@ export function DataTable<TData, TValue>({
     isCompletePorductivity,
   } = pathConditions;
 
-  const handleRowDoubleClick = (rowId: string) => {
+  const handleRowDoubleClick = (rowId: any) => {
     console.log(rowId);
 
     if (isSekretariat) {
@@ -103,12 +104,12 @@ export function DataTable<TData, TValue>({
     }
   };
 
-  const handleViews = (rowId: string) => {
+  const handleViews = (rowId: any) => {
     console.log(rowId);
     router.push(`/aset-digital/nomor-telepon/${rowId}`);
   };
 
-  const handleEdit = (rowId: string) => {
+  const handleEdit = (rowId: any) => {
     console.log(rowId);
     if (isViewNoHandphone) {
       openDialog(rowId, "edit phone");
@@ -121,7 +122,7 @@ export function DataTable<TData, TValue>({
     }
   };
 
-  const handleDelete = (rowId: string) => {
+  const handleDelete = (rowId: any) => {
     console.log(rowId);
   };
 

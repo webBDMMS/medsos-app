@@ -11,17 +11,18 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 export function UserNav() {
-//   const { data: session } = useSession();
-  const session = {
-    user: {
-      name: "John Doe",
-      email: "bQp7A@example.com",
-      image:
-        "https://res.cloudinary.com/dzxxupjbz/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724116366/king-doel_fltcfa.jpg",
-    },
-  };
+  const { data: session } = useSession();
+  console.log("user session", session);
+  // const session = {
+  //   user: {
+  //     name: "John Doe",
+  //     email: "bQp7A@example.com",
+  //     image:
+  //       "https://res.cloudinary.com/dzxxupjbz/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724116366/king-doel_fltcfa.jpg",
+  //   },
+  // };
   if (session) {
     return (
       <DropdownMenu>
@@ -65,7 +66,7 @@ export function UserNav() {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem 
-        //   onClick={() => signOut()}
+          onClick={() => signOut()}
           >
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

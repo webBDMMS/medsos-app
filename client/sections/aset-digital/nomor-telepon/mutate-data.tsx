@@ -49,7 +49,7 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
             <div
               style={{ marginTop: "6px" }}
               className={`transition-all duration-300 ease-in-out ${
-                isExpired ? "mb-[32px]" : "mb-0"
+                isExpired ? "mb-[37px]" : "mb-0"
               }`}
             >
               <ComboboxForm
@@ -97,7 +97,8 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="terms"
-                onCheckedChange={(checked) => setIsExpired(!!checked)}
+                defaultChecked
+                onCheckedChange={(checked) => setIsExpired(!checked)}
               />
               <label
                 htmlFor="terms"

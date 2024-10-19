@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import { secretariatData } from "@/constants/secretariat/data";
 import { useParams, usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { ArrowLeft, Plus } from "lucide-react";
@@ -17,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { items } from "@/constants/media-sosial/data";
 import Link from "next/link";
+import { sekretariatOptions } from "@/sections/gedung";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -118,15 +118,16 @@ export function DataTableToolbar<TData>({
 
         {isSekretariat && (
           <Fragment>
-            {table.getColumn("coverage_level") && (
+            {table.getColumn("unit") && (
               <DataTableFacetedFilter
-                column={table.getColumn("coverage_level")}
+                column={table.getColumn("unit")}
                 title="Sekretariat"
-                options={secretariatData}
+                options={sekretariatOptions}
               />
             )}
           </Fragment>
         )}
+
         {isFiltered && (
           <Button
             variant="ghost"

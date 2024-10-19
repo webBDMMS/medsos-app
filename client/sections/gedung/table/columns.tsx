@@ -3,10 +3,10 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Secretariat } from "@/constants/secretariat/data";
 import { DataTableColumnHeader } from "@/components/custom/data-table/data-table-column-header";
+import { SekretariatTable } from "@/types/api-types/sekretariat";
 
-export const columns: ColumnDef<Secretariat>[] = [
+export const columns: ColumnDef<SekretariatTable>[] = [
   {
     accessorKey: "no",
     header: ({ column }) => (
@@ -23,13 +23,13 @@ export const columns: ColumnDef<Secretariat>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "secretariat",
+    accessorKey: "unit",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Sekretariat" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("secretariat")}
+        {row.getValue("unit")}
       </div>
     ),
   },
@@ -38,46 +38,63 @@ export const columns: ColumnDef<Secretariat>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tingkat Cakupan" />
     ),
-    cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("coverage_level")}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const vFixCoverage: string | null = row.getValue("coverage_level");
+      return (
+        <div className="max-w-[500px] truncate font-medium">
+          {vFixCoverage ? vFixCoverage : <span>Sekretariat</span>}
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "address",
+    accessorKey: "alamat",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Alamat" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("address")}
+        {row.getValue("alamat")}
       </div>
     ),
   },
   {
-    accessorKey: "google_maps",
+    accessorKey: "url_google_maps",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Titik Google Maps" />
     ),
-    cell: ({ row }) => (
-      <a target="_blank" href={row.getValue("google_maps")}>
-        <div className="max-w-[500px] truncate font-medium cursor-pointer hover:underline">
-          <span className="text-primary">{row.getValue("google_maps")}</span>
+    cell: ({ row }) => {
+      const vFixGmaps: string | null = row.getValue("url_google_maps");
+      return (
+        <div className="max-w-[500px] truncate font-medium">
+          {vFixGmaps ? (
+            <a
+              target="_blank"
+              href={vFixGmaps}
+              className="cursor-pointer hover:underline text-primary"
+            >
+              {vFixGmaps}
+            </a>
+          ) : (
+            <span className="text-center ">#N/A</span>
+          )}
         </div>
-      </a>
-    ),
+      );
+    },
   },
   {
-    accessorKey: "instagram_account",
+    accessorKey: "instagram",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Akun Instagram" />
     ),
-    cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("instagram_account")}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const vFixIg: string | null = row.getValue("instagram");
+      return (
+        <div className="max-w-[500px] truncate font-medium">
+          {vFixIg ? vFixIg : <span className="text-center">#N/A</span>}
+        </div>
+      );
+    },
   },
   // {
   //   accessorKey: "no_halo",
@@ -99,7 +116,7 @@ export const columns: ColumnDef<Secretariat>[] = [
       const vFixPhone: string | null = row.getValue("fix_phone");
       return (
         <div className="max-w-[500px] truncate font-medium">
-          {vFixPhone ? vFixPhone : <span className="text-center">-</span>}
+          {vFixPhone ? vFixPhone : <span className="text-center">#N/A</span>}
         </div>
       );
     },

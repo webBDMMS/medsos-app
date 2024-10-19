@@ -23,16 +23,24 @@ export const SekretariatSchema = z.object({
 
 export type TypeSekretariat = z.infer<typeof SekretariatSchema>;
 
+export type SekretariatTable = {
+  unit: string;
+  is_sekretariat: string | null;
+  alamat: string;
+  instagram: string | null;
+  id?: number | null;
+  id_pj_cabang?: string | null;
+  url_google_maps?: string | null;
+  coverage_level?: string | null;
+  fix_phone?: string | null;
+};
 
-export const secretariatSchema = z.object({
-  id: z.string().optional(),
-  secretariat: z.string().min(1),
-  coverage_level: z.string(),
-  address: z.string().min(1),
-  google_maps: z.string().url(),
-  instagram_account: z.string().url(),
-  no_halo: z.string(),
-  fix_phone: z.string(),
-});
-
-export type Secretariat = z.infer<typeof secretariatSchema>;
+export type SekretariatPhoneTable = {
+  unit: string;
+  id_kota: number | null;
+  kota: string;
+  is_sekretariat: string | null;
+  alamat: string;
+  id?: number | null;
+  id_pj_cabang?: string | null;
+};

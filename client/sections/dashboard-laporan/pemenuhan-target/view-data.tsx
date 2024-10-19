@@ -59,7 +59,7 @@ const ViewData = () => {
           </TabsContent>
         </Tabs>
         <Link href={"/dashboard-laporan/complete-productivity"}>
-          <p className="text-base underline text-primary truncate w-auto absolute right-0 cursor-pointer">
+          <p className="text-base underline text-white truncate w-auto absolute right-0 cursor-pointer">
             Lihat data lengkap (1 tahun)
           </p>
         </Link>

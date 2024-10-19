@@ -102,11 +102,11 @@ const GMapsActions = ({ isEdit }: { isEdit?: boolean }) => {
               <div className="flex items-center space-x-2 mt-2">
                 <Switch
                   id="terms"
-                  checked={field.value === "Non Aktif"}
+                  checked={field.value === "Aktif"}
                   onCheckedChange={(checked) => {
-                    const newValue = checked ? "Non Aktif" : "Aktif";
+                    const newValue = checked ? "Aktif" : "Non Aktif";
                     field.onChange(newValue);
-                    setIsAktif(!!checked);
+                    setIsAktif(!checked);
                   }}
                 />
                 <Label htmlFor="terms">

@@ -4,9 +4,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/custom/data-table/data-table-column-header";
-import { Nomor } from "@/constants/nomor-telphone/data";
+import { SekretariatPhoneTable } from "@/types/api-types/sekretariat";
 
-export const columns: ColumnDef<Nomor>[] = [
+export const columns: ColumnDef<SekretariatPhoneTable>[] = [
   {
     accessorKey: "no",
     header: ({ column }) => (
@@ -23,35 +23,35 @@ export const columns: ColumnDef<Nomor>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "city",
+    accessorKey: "kota",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kota" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("city")}
+        {row.getValue("kota")}
       </div>
     ),
   },
   {
-    accessorKey: "sekretariat",
+    accessorKey: "unit",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Sekretariat" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("sekretariat")}
+        {row.getValue("unit")}
       </div>
     ),
   },
   {
-    accessorKey: "address_sekretariat",
+    accessorKey: "alamat",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Alamat Sekretariat" />
     ),
     cell: ({ row }) => (
       <div className="max-w-[500px] truncate font-medium">
-        {row.getValue("address_sekretariat")}
+        {row.getValue("alamat")}
       </div>
     ),
   },
