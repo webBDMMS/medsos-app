@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 // import { CreateNoTlpDto } from './dto/create-no_tlp.dto';
 // import { UpdateNoTlpDto } from './dto/update-no_tlp.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { noTlpIntf } from 'src/interface/no_tlp.intf';
 import { CreateNoTlpDto } from './dto/create-no_tlp.dto';
+import { UpdateNoTlpDto } from './dto/update-no_tlp.dto';
 @Injectable()
 export class NoTlpService {
   constructor(private prisma: PrismaService) {}
@@ -49,6 +50,38 @@ export class NoTlpService {
         error: error.message,
       };
     }
+  }
+  async editById(id: number, updateData: UpdateNoTlpDto): Promise<noTlpIntf> {
+    // Cek apakah data dengan ID tersebut ada
+    const existingRecord = await this.prisma.asset_telepon.findUnique({
+      where: { id: id },
+    });
+
+    // Jika data tidak ditemukan, lemparkan NotFoundException
+    if (!existingRecord) {
+      throw new NotFoundException(`Telepon dengan ID ${id} tidak ditemukan.`);
+    }
+
+    // Lakukan update
+    const updatedRecord = await this.prisma.asset_telepon.update({
+      where: { id: id },
+      data: updateData,
+    });
+
+    // Kembalikan data yang telah diperbarui dengan mengonversi ke tipe noTlpIntf
+    return {
+      id: updatedRecord.id,
+      id_unit: updatedRecord.id_unit,
+      no_telepon: updatedRecord.no_telepon,
+      provider: updatedRecord.provider,
+      tanggal_aktif: updatedRecord.tanggal_aktif?.toISOString() || null,
+      tanggal_non_aktif: updatedRecord.tanggal_non_aktif?.toISOString() || null,
+      penanggung_jawab: updatedRecord.penanggung_jawab,
+      is_published: updatedRecord.is_published,
+      created_at: updatedRecord.created_at || null,
+      updated_at: updatedRecord.updated_at || null,
+      id_sekretariat: updatedRecord.id_sekretariat,
+    };
   }
 
   async getNoTelpByIdUnit(idUnit: number): Promise<noTlpIntf[]> {
