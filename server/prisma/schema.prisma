@@ -41,8 +41,8 @@ model asset_telepon {
   id_unit           Int?      @db.SmallInt
   no_telepon        String?   @db.VarChar(32)
   provider          String?   @db.VarChar(50)
-  tanggal_aktif     String?   @db.VarChar(255)
-  tanggal_non_aktif String?   @db.VarChar(255)
+  tanggal_aktif     DateTime? @db.Date
+  tanggal_non_aktif DateTime? @db.Date
   penanggung_jawab  String?   @db.VarChar(255)
   is_published      String?   @db.VarChar(255)
   created_at        DateTime? @db.Timestamp(6)

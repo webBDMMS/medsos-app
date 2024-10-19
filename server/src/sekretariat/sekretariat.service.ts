@@ -98,6 +98,14 @@ export class SekretariatService {
       throw error;
     }
   }
+
+  async getSekrebyKota(kota: string) {
+    return await this.prisma.master_unit_pj.findMany({
+      where: {
+        kota: kota,
+      },
+    });
+  }
   async getAllKotaGo() {
     try {
       const uniqueKota = await this.prisma.master_unit_pj.findMany({
