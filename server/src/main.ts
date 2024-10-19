@@ -7,8 +7,8 @@ async function bootstrap() {
     .setTitle('API MEDSOS-APP')
     .setDescription('Ini adalah dokumentasi API Medsos-App ganesha operation')
     .setVersion('1.0')
-    .addServer('http://localhost:5000/', 'Local environment')
-    // .addServer('https://staging.yourapi.com/', 'Staging')
+    // .addServer('http://localhost:5050/', 'Local environment')
+    .addServer('https://dev-api-medsos.ganeshaoperation.com/', 'Staging')
     // .addServer('https://production.yourapi.com/', 'Production')
     .addTag('Medsos-App')
     .build();
@@ -16,6 +16,6 @@ async function bootstrap() {
 
   SwaggerModule.setup('Medsos-App', app, document);
   app.enableCors();
-  await app.listen(5000);
+  await app.listen(5050);
 }
 bootstrap();
