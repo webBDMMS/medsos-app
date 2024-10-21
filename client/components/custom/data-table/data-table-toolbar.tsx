@@ -106,6 +106,7 @@ export function DataTableToolbar<TData>({
         {/* view no handphone */}
         {/* Update Input to handle global filtering */}
         <Input
+          data-id="input-search"
           placeholder="Search all data..."
           value={globalFilterValue}
           onChange={(event) => table.setGlobalFilter(event.target.value)} // Set global filter
@@ -130,6 +131,7 @@ export function DataTableToolbar<TData>({
 
         {isFiltered && (
           <Button
+            data-id="btn-reset"
             variant="ghost"
             onClick={() => table.resetColumnFilters()}
             className="h-8 px-2 lg:px-3"
@@ -143,6 +145,7 @@ export function DataTableToolbar<TData>({
         {(isViewNoHandphone || isMedsos || isGMaps) && (
           <Fragment>
             <Button
+              data-id="btn-create"
               onClick={handleCreate}
               variant="default"
               className={`h-8 px-2 lg:px-3 ${isViewNoHandphone ? "mt-4" : ""}`}

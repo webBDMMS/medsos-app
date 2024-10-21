@@ -82,7 +82,9 @@ export const CustomModal = () => {
     <Dialog open={isOpen} onOpenChange={closeDialog}>
       <DialogContent className="w-auto h-auto max-w-[90vw] max-h-[90vh] overflow-auto">
         <DialogHeader>
-          <DialogTitle className="capitalize">{label}</DialogTitle>
+          <DialogTitle data-id={`title-${label}`} className="capitalize">
+            {label}
+          </DialogTitle>
           {/* <DialogDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </DialogDescription> */}

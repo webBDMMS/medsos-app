@@ -11,7 +11,6 @@ import { DatePicker } from "@/components/custom/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { DataTable } from "@/components/custom/data-table";
 import { columns } from "./table/columns";
-import productivitas from "@/constants/productivitas-digital/input-productivitas/productivitas.json";
 import {
   Productivitas,
   ProductivitasSchema,
@@ -24,6 +23,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useProductivitasStore } from "@/hooks/use-productivitas";
+import { toast } from "sonner";
 
 type SelectedItem = {
   cabang: string;
@@ -32,21 +33,68 @@ type SelectedItem = {
 };
 
 const ProductivitasActions = () => {
+  const { tempData, addProductivitas, clearProductivitas } =
+    useProductivitasStore(); // Gunakan store
+
+  console.log("temporary", tempData);
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
-  console.log("eyyow selected", selectedItem);
+  const [inputValue, setInputValue] = useState("");
+  const [platForm, setPlatForm] = useState("Unknown");
 
-  const productivitasData = productivitas.data.map((item) => ({
-    ...item,
-    date: new Date(item.date),
-  }));
+  // Array to keep track of existing links
+  const existingLinks = tempData.map((item) => item.link);
+
+  const detectPlatform = (url: string): string => {
+    const instagramRegex =
+      /https?:\/\/(www\.)?instagram\.com\/(reel|p)\/[A-Za-z0-9_-]+/;
+    const googleMapsRegex = /https?:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+/;
+
+    if (instagramRegex.test(url)) {
+      return "Instagram";
+    } else if (googleMapsRegex.test(url)) {
+      return "Google Maps";
+    } else {
+      return "Unknown";
+    }
+  };
 
   const form = useForm<Productivitas>({
     resolver: zodResolver(ProductivitasSchema),
   });
 
-  const onSubmit = (data: Productivitas) => {
-    console.log("Data Valid:", JSON.stringify(data));
+  const onSubmitTemp = (data: Productivitas) => {
+    const newEntry = {
+      id: Math.random().toString(36).slice(2, 11), // Generate unique ID
+      sekretariat: data.sekretariat,
+      date: data.date,
+      platform: platForm,
+      link: data.link,
+    };
+
+    // Check for duplicate links before adding
+    if (existingLinks.includes(data.link)) {
+      toast.error(
+        "Link ini sudah ada di dalam daftar. Silakan pilih link yang berbeda."
+      );
+      return; // Prevent adding duplicate link
+    }
+
+    addProductivitas(newEntry); // Tambah data ke store zustand
+    // Reset form setelah menambah data
+    setInputValue("");
+    form.reset({
+      city: "",
+      sekretariat: "",
+      date: undefined, // Reset DatePicker
+      platform: "",
+      link: "",
+    });
+  };
+
+  const onSubmitServer = () => {
+    // platForm
+    clearProductivitas(); // Hapus data sementara setelah dikirim ke server
   };
 
   // Watch for changes in selectedItem and set form values accordingly
@@ -72,11 +120,11 @@ const ProductivitasActions = () => {
         <TOCWrapper setSelectedItem={setSelectedItem} />
       </div>
       <div className="col-span-6 p-3 h-full">
-        <Card className="w-full border-primary h-[80dvh] dark:border-muted-foreground">
+        <Card className="w-full border-primary  dark:border-muted-foreground">
           <p className="font-bold my-1 text-center">Input Productivitas</p>
           <Separator />
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form>
               <CardContent className="p-3">
                 <div className="flex gap-3 mx-auto">
                   <FormField
@@ -146,7 +194,16 @@ const ProductivitasActions = () => {
                         <FormItem>
                           <FormLabel>Input Link Productivitas</FormLabel>
                           <FormControl>
-                            <Textarea className="h-[93%]" {...field} />
+                            <Textarea
+                              value={inputValue}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                setInputValue(value);
+                                field.onChange(value); // Call the original onChange
+                                setPlatForm(detectPlatform(value)); // Detect platform
+                              }}
+                              placeholder="Masukkan URL disini"
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -155,21 +212,22 @@ const ProductivitasActions = () => {
                   </div>
                   <div className="col-span-4 p-3">
                     <p className="text-sm mb-3">Daftar Productivitas</p>
-                    <DataTable columns={columns} data={productivitasData} />
+                    <DataTable columns={columns} data={tempData} />
                   </div>
                 </div>
               </CardContent>
-              <Separator />
-              <CardFooter className="flex justify-end mt-1 -me-4">
+              <CardFooter className="flex justify-between items-center">
                 <Button
-                  type="submit"
-                  onClick={() => {
-                    {
-                      handleCheckBeforeSubmit();
-                      form.handleSubmit(onSubmit)();
-                    }
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleCheckBeforeSubmit();
+                    form.handleSubmit(onSubmitTemp)();
                   }}
                 >
+                  Tambah Data
+                </Button>
+                <Button type="button" onClick={onSubmitServer}>
                   Simpan Data
                 </Button>
               </CardFooter>

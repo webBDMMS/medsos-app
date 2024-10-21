@@ -6,7 +6,7 @@ export default function OverViewPage() {
     <Container scrollable>
       <div className="space-y-2 ">
         <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 data-id="title" className="text-2xl font-bold tracking-tight">
             Hi, Welcome back 👋
           </h2>
           <div className="hidden items-center space-x-2 md:flex">

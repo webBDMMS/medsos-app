@@ -41,7 +41,12 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed">
+        <Button
+          data-id="btn-trigger"
+          variant="outline"
+          size="sm"
+          className="h-8 border-dashed"
+        >
           <PlusCircledIcon className="mr-2 h-4 w-4" />
           {title}
           {selectedValue && (
@@ -88,7 +93,9 @@ export function DataTableFacetedFilter<TData, TValue>({
                     {option.icon && (
                       <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                     )}
-                    <span>{option.label}</span>
+                    <span data-id={`options${option.label}`}>
+                      {option.label}
+                    </span>
                   </CommandItem>
                 );
               })}

@@ -28,7 +28,10 @@ export const columns: ColumnDef<SekretariatTable>[] = [
       <DataTableColumnHeader column={column} title="Sekretariat" />
     ),
     cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
+      <div
+        data-id={`row-${row.getValue("unit")}`}
+        className="max-w-[500px] truncate font-medium"
+      >
         {row.getValue("unit")}
       </div>
     ),

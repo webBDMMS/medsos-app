@@ -50,7 +50,10 @@ export const columnsView: ColumnDef<ViewNomor>[] = [
       <DataTableColumnHeader column={column} title="Penanggung Jawab" />
     ),
     cell: ({ row }) => (
-      <div className="max-w-[500px] truncate font-medium">
+      <div
+        data-id={`row-${row.getValue("pj")}`}
+        className="max-w-[500px] truncate font-medium"
+      >
         {row.getValue("pj")}
       </div>
     ),

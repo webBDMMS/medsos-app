@@ -56,7 +56,9 @@ export function SigninForm() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle data-id="title" className="text-2xl">
+          Login
+        </CardTitle>
         <CardDescription>
           Enter your email below to login to your account
         </CardDescription>
@@ -76,6 +78,7 @@ export function SigninForm() {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
+                        data-id="input-email"
                         type="email"
                         placeholder="Enter your email..."
                         disabled={loading}
@@ -98,7 +101,12 @@ export function SigninForm() {
                 </div>
                 <Input id="password" type="password" required />
               </div> */}
-              <Button disabled={loading} type="submit" className="w-full">
+              <Button
+                data-id="btn-submit"
+                disabled={loading}
+                type="submit"
+                className="w-full"
+              >
                 Login
               </Button>
             </div>

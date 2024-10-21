@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/context-menu";
 import { Separator } from "@/components/ui/separator";
 import { Delete, Pencil, ScanSearch } from "lucide-react";
+import { useProductivitasStore } from "@/hooks/use-productivitas";
 
 interface DataTableProps<TData extends { id?: any }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -50,6 +51,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData & { id?: any }, TValue>) {
+   const { removeProductivitas } = useProductivitasStore();
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -124,6 +126,9 @@ export function DataTable<TData, TValue>({
 
   const handleDelete = (rowId: any) => {
     console.log(rowId);
+    if (isProductivity) {
+      removeProductivitas(rowId);
+    }
   };
 
   // ? adjust for set paginations
@@ -187,7 +192,11 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <React.Fragment key={row.id}>
-                  {isNoHandphone || isMedsos || isGMaps || isViewNoHandphone ? ( // Aktifkan ContextMenu hanya jika pathname cocok
+                  {isNoHandphone ||
+                  isMedsos ||
+                  isGMaps ||
+                  isViewNoHandphone ||
+                  isProductivity ? ( // Aktifkan ContextMenu hanya jika pathname cocok
                     <ContextMenu>
                       <ContextMenuTrigger asChild>
                         <TableRow
@@ -205,11 +214,17 @@ export function DataTable<TData, TValue>({
                         </TableRow>
                       </ContextMenuTrigger>
                       <ContextMenuContent>
-                        <ContextMenuLabel>Actions</ContextMenuLabel>
+                        <ContextMenuLabel data-id="actions">
+                          Actions
+                        </ContextMenuLabel>
                         <Separator />
                         <ContextMenuItem
+                          data-id="act-view"
                           className={`${
-                            isMedsos || isGMaps || isViewNoHandphone
+                            isMedsos ||
+                            isGMaps ||
+                            isViewNoHandphone ||
+                            isProductivity
                               ? "hidden"
                               : ""
                           }`}
@@ -221,7 +236,10 @@ export function DataTable<TData, TValue>({
                           </ContextMenuShortcut>
                         </ContextMenuItem>
                         <ContextMenuItem
-                          className={`${isNoHandphone ? "hidden" : ""}`}
+                          data-id="act-edit"
+                          className={`${
+                            isNoHandphone || isProductivity ? "hidden" : ""
+                          }`}
                           onClick={() => handleEdit(row.original.id!)}
                         >
                           Edit
@@ -230,6 +248,7 @@ export function DataTable<TData, TValue>({
                           </ContextMenuShortcut>
                         </ContextMenuItem>
                         <ContextMenuItem
+                          data-id="act-delete"
                           className={`${isNoHandphone ? "hidden" : ""}`}
                           onClick={() => handleDelete(row.original.id!)}
                         >

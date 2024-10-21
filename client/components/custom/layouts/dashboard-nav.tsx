@@ -178,7 +178,7 @@ export function DashboardNav({
       }
 
       return (
-        <div key={item.title}>
+        <div data-id={`nav-${item.title}`} key={item.title}>
           {item.href ? (
             <NavItemLink item={item} onClick={handleSetOpen}>
               {content}
