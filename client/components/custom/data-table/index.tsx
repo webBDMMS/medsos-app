@@ -29,7 +29,7 @@ import {
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import useDialogStore from "@/hooks/use-dialog";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData & { id?: any }, TValue>) {
-   const { removeProductivitas } = useProductivitasStore();
+  const { removeProductivitas } = useProductivitasStore();
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -64,8 +64,8 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
   const { openDialog } = useDialogStore();
 
-  const params = useParams<{ id: any }>();
-  const id = params.id;
+  // const params = useParams<{ id: any }>();
+  // const id = params.id;
 
   const pathConditions = {
     isSekretariat: pathname === "/gedung",
@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
     isProductivity: pathname === "/productivitas-digital/input-productivitas",
     isVerify: pathname === "/productivitas-digital/verifikasi-productivitas",
     isFulfillment: pathname === "/dashboard-laporan/pemenuhan-target",
-    isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/${id}`,
+    // isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/${id}`,
     isCompletePorductivity:
       pathname === `/dashboard-laporan/complete-productivity`,
     // Add more conditions as needed
@@ -90,7 +90,6 @@ export function DataTable<TData, TValue>({
     isProductivity,
     isVerify,
     isFulfillment,
-    isViewNoHandphone,
     isCompletePorductivity,
   } = pathConditions;
 
@@ -106,14 +105,21 @@ export function DataTable<TData, TValue>({
     }
   };
 
-  const handleViews = (rowId: any) => {
-    console.log(rowId);
-    router.push(`/aset-digital/nomor-telepon/${rowId}`);
+  const handleViews = (rowData: any) => {
+    console.log("view action", rowData);
+    if (isNoHandphone) {
+      // Untuk App Router, gunakan format string URL
+      router.push(
+        `/aset-digital/nomor-telepon/view-data?kota=${encodeURIComponent(
+          rowData.kota
+        )}&sekretariat=${encodeURIComponent(rowData.unit)}`
+      );
+    }
   };
 
   const handleEdit = (rowId: any) => {
     console.log(rowId);
-    if (isViewNoHandphone) {
+    if (isNoHandphone) {
       openDialog(rowId, "edit phone");
     }
     if (isMedsos) {
@@ -192,11 +198,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <React.Fragment key={row.id}>
-                  {isNoHandphone ||
-                  isMedsos ||
-                  isGMaps ||
-                  isViewNoHandphone ||
-                  isProductivity ? ( // Aktifkan ContextMenu hanya jika pathname cocok
+                  {isNoHandphone || isMedsos || isGMaps || isProductivity ? ( // Aktifkan ContextMenu hanya jika pathname cocok
                     <ContextMenu>
                       <ContextMenuTrigger asChild>
                         <TableRow
@@ -221,14 +223,11 @@ export function DataTable<TData, TValue>({
                         <ContextMenuItem
                           data-id="act-view"
                           className={`${
-                            isMedsos ||
-                            isGMaps ||
-                            isViewNoHandphone ||
-                            isProductivity
+                            isMedsos || isGMaps || isProductivity
                               ? "hidden"
                               : ""
                           }`}
-                          onClick={() => handleViews(row.original.id!)}
+                          onClick={() => handleViews(row.original)}
                         >
                           View
                           <ContextMenuShortcut>
@@ -237,9 +236,7 @@ export function DataTable<TData, TValue>({
                         </ContextMenuItem>
                         <ContextMenuItem
                           data-id="act-edit"
-                          className={`${
-                            isNoHandphone || isProductivity ? "hidden" : ""
-                          }`}
+                          className={`${isProductivity ? "hidden" : ""}`}
                           onClick={() => handleEdit(row.original.id!)}
                         >
                           Edit
@@ -249,7 +246,6 @@ export function DataTable<TData, TValue>({
                         </ContextMenuItem>
                         <ContextMenuItem
                           data-id="act-delete"
-                          className={`${isNoHandphone ? "hidden" : ""}`}
                           onClick={() => handleDelete(row.original.id!)}
                         >
                           Hapus

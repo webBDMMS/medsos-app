@@ -36,6 +36,7 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
   return (
     <Card className="w-full border-primary dark:border-muted-foreground">
       <CardContent className="py-3">
+        <LableSperator title={"Wilayah:"} />
         <div className="flex gap-4 w-full">
           <div className="w-full">
             <ComboboxForm
@@ -46,18 +47,27 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
               fieldName={"kota_go"}
               placeholder={"select..."}
             />
-            <div
-              style={{ marginTop: "6px" }}
-              className={`transition-all duration-300 ease-in-out ${
-                isExpired ? "mb-[37px]" : "mb-0"
-              }`}
-            >
+          </div>
+          <div className="w-full">
+            <ComboboxForm
+              form={form}
+              disabled={isEdit}
+              label="Sekretariat"
+              items={SekretariatList}
+              fieldName={"sekretariat"}
+              placeholder={"select..."}
+            />
+          </div>
+        </div>
+        <LableSperator title={"Data Nomor:"} />
+        <div className="flex gap-4 w-full">
+          <div className="w-full">
+            <div className="mt-[6px]">
               <ComboboxForm
                 form={form}
-                disabled={isEdit}
-                label="Sekretariat"
-                items={SekretariatList}
-                fieldName={"sekretariat"}
+                label="Penanggung jawab"
+                items={PjList}
+                fieldName={"pj"}
                 placeholder={"select..."}
               />
             </div>
@@ -75,13 +85,6 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
             ))}
           </div>
           <div className="w-full">
-            <ComboboxForm
-              form={form}
-              label="Penanggung jawab"
-              items={PjList}
-              fieldName={"pj"}
-              placeholder={"select..."}
-            />
             {NomorData2.map((field, idx) => (
               <div key={idx} className="mb-3">
                 <InputForm
@@ -133,3 +136,12 @@ const ViewPhone = ({ isEdit }: { isEdit?: boolean }) => {
 };
 
 export default ViewPhone;
+
+const LableSperator = ({ title }: { title: string }) => {
+  return (
+    <div>
+      <p className="text-sm text-primary">{title}</p>
+      <Separator className="mt-1 mb-3 bg-primary" />
+    </div>
+  );
+};

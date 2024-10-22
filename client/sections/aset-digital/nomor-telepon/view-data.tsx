@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { DataTable } from "@/components/custom/data-table";
 import Container from "@/components/custom/layouts/container";
 import React from "react";
@@ -7,6 +7,8 @@ import nomorView from "@/constants/nomor-telphone/view-nomor.json";
 import { useGetPhones } from "@/hooks/react-querry/phone";
 
 const ViewNomor = () => {
+
+
   const data = nomorView.data.map((item) => ({
     ...item,
     active_date: new Date(item.active_date),

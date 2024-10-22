@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment } from "react";
 import { ArrowLeft, Plus } from "lucide-react";
 import useDialogStore from "@/hooks/use-dialog";
@@ -30,15 +30,12 @@ export function DataTableToolbar<TData>({
   const { openDialog } = useDialogStore();
   //? ===== management path conditions =====
   const pathname = usePathname();
-  const params = useParams<{ id: string }>();
-  const id = params.id;
-  // console.log("params id", id);
-  // console.log("current path", pathname);
+  const searchParams = useSearchParams();
 
   const pathConditions = {
     isSekretariat: pathname === "/gedung",
     isNoHandphone: pathname === "/aset-digital/nomor-telepon",
-    isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/${id}`,
+    isViewNoHandphone: pathname === `/aset-digital/nomor-telepon/view-data`,
     isMedsos: pathname === "/aset-digital/media-sosial",
     isGMaps: pathname === "/aset-digital/google-maps",
     isCompletePorductivity:
@@ -53,11 +50,15 @@ export function DataTableToolbar<TData>({
     isMedsos,
     isGMaps,
     isCompletePorductivity,
+    isNoHandphone,
   } = pathConditions;
   //? ===== management path conditions =====
 
+  const kota = searchParams.get("kota");
+  const sekretariat = searchParams.get("sekretariat");
+
   const handleCreate = () => {
-    if (isViewNoHandphone) {
+    if (isNoHandphone) {
       openDialog(null, "phone");
     }
     if (isMedsos) {
@@ -86,7 +87,9 @@ export function DataTableToolbar<TData>({
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Kota Go</Label>
               <Input
-                className="h-8 w-[150px] lg:w-[250px]"
+                readOnly
+                value={kota ?? ""}
+                className="h-8 w-[150px] lg:w-[250px] cursor-not-allowed"
                 type="email"
                 id="email"
                 placeholder="Email"
@@ -95,7 +98,9 @@ export function DataTableToolbar<TData>({
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Sekretariat</Label>
               <Input
-                className="h-8 w-[150px] lg:w-[250px]"
+                readOnly
+                value={sekretariat ?? ""}
+                className="h-8 w-[150px] lg:w-[250px] cursor-not-allowed"
                 type="email"
                 id="email"
                 placeholder="Email"
@@ -142,13 +147,13 @@ export function DataTableToolbar<TData>({
         )}
 
         {/* create button */}
-        {(isViewNoHandphone || isMedsos || isGMaps) && (
+        {(isNoHandphone || isMedsos || isGMaps) && (
           <Fragment>
             <Button
               data-id="btn-create"
               onClick={handleCreate}
               variant="default"
-              className={`h-8 px-2 lg:px-3 ${isViewNoHandphone ? "mt-4" : ""}`}
+              className={`h-8 px-2 lg:px-3`}
             >
               Tambah Data
               <Plus className="ml-2 h-4 w-4" />

@@ -17,18 +17,6 @@
         "city": "Bontang",
         "sekretariat": "Dinas Kesehatan",
         "address_sekretariat": "Jl. Kesehatan No. 1, Kel. Sempaja, Kec. Samarinda Utara, Samarinda, Kalimantan Timur"
-      },
-      {
-        "id": "4d504d50-4d50-4d50-4d50-4d504d504d50",
-        "city": "Samarinda",
-        "sekretariat": "Dinas Lingkungan Hidup",
-        "address_sekretariat": "Jl. Lingkungan Hidup No. 1, Kel. Sempaja, Kec. Samarinda Utara, Samarinda, Kalimantan Timur"
-      },
-      {
-        "id": "6a01c5a2-7a7c-4a4a-84e9-06cf7ba5c5c5",
-        "city": "Samarinda",
-        "sekretariat": "Dinas Kebudayaan",
-        "address_sekretariat": "Jl. Kebudayaan No. 1, Kel. Sempaja, Kec. Samarinda Utara, Samarinda, Kalimantan Timur"
       }
     ]
 }

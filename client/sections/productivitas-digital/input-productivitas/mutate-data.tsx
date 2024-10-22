@@ -135,7 +135,8 @@ const ProductivitasActions = () => {
                         <FormLabel htmlFor="kota">Kota</FormLabel>
                         <FormControl>
                           <Input
-                            disabled
+                            readOnly
+                            className="cursor-not-allowed"
                             defaultValue={field.value || ""}
                             id="kota"
                             placeholder="Kota"
@@ -154,7 +155,8 @@ const ProductivitasActions = () => {
                         <FormLabel htmlFor="sekretariat">Sekretariat</FormLabel>
                         <FormControl>
                           <Input
-                            disabled
+                            readOnly
+                            className="cursor-not-allowed"
                             defaultValue={field.value || ""}
                             id="sekretariat"
                             placeholder="Sekretariat"
